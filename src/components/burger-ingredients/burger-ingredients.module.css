@@ -13,3 +13,18 @@
   text-align: center;
   list-style-type: none;
 }
+
+.burger_ingredients_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.scroll {
+  align-self: center;
+  width: 10px;
+  height: 95%;
+  background-color: grey;
+  border-radius: 5px;
+}
