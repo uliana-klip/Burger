@@ -1,7 +1,10 @@
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 
-import styles from './burger-ingredients-list.module.css';
+import Modal from '../modal/modal';
+import { ModalIngredientInfo } from '../modal/modal-ingredient-info/modal-ingredient-info';
+
+import styles from '../burger-ingredients-list/burger-ingredients-list.module.css';
 
 export const BurgerIngredientsList = ({ listName, arrs }) => {
   const [counts, setCounts] = useState({});
@@ -11,8 +14,20 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
       ...prev,
       [name]: (prev[name] || 0) + 1,
     }));
+
     console.log(counts);
   };
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+
+  const modal = (
+    <Modal>
+      <ModalIngredientInfo onClose={() => setIsVisible(!isVisible)}>
+        {modalInfo}
+      </ModalIngredientInfo>
+    </Modal>
+  );
 
   return (
     <>
@@ -20,23 +35,24 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
       <section className={styles.burger_ingredients_type}>
         {arrs.map((item) => (
           <article
+            onMouseEnter={() => setModalInfo(item)}
             onClick={() => counterIngredients(item.name)}
             className={styles.burger_ingredients_card}
             key={item._id}
           >
+            <img src={item.image} />
             {counts[item.name] > 0 && (
               <Counter count={counts[item.name]} size="default" />
             )}
-
-            <img src={item.image} />
             <article className={styles.burger_ingredients_cardprice}>
               {item.price}
               <CurrencyIcon type="Primary" />
             </article>
-            <h1>{item.name}</h1>
+            <h1 onClick={() => setIsVisible(!isVisible)}>{item.name}</h1>
           </article>
         ))}
       </section>
+      {isVisible && modal}
     </>
   );
 };

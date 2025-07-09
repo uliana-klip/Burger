@@ -13,6 +13,7 @@ export const BurgerIngredients = ({ ingredients }) => {
   const [isActive, setIsActive] = useState('bun');
 
   const selected = (item) => {
+    console.log(item);
     if (isActive !== item) {
       setIsActive(item);
     }
@@ -51,6 +52,15 @@ export const BurgerIngredients = ({ ingredients }) => {
       </nav>
       <div className={styles.burger_ingredients_container}>
         <div>
+          {/* {isActive === 'bun' && (
+            <BurgerIngredientsList listName={'Булки'} arrs={buns} />
+          )}
+          {isActive === 'sauce' && (
+            <BurgerIngredientsList listName={'Соусы'} arrs={sauсes} />
+          )}
+          {isActive === 'main' && (
+            <BurgerIngredientsList listName={'Начинки'} arrs={mains} />
+          )} */}
           <BurgerIngredientsList listName={'Булки'} arrs={buns} />
           <BurgerIngredientsList listName={'Соусы'} arrs={sauсes} />
           <BurgerIngredientsList listName={'Начинки'} arrs={mains} />
