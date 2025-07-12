@@ -1,0 +1,32 @@
+.modal_info {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Jet Brains Mono', serif;
+}
+
+.modal_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+h3 {
+  font-size: 35px;
+}
+
+.modal_name {
+  font-size: 25px;
+  text-align: center;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 0 80px;
+  color: rgb(96 96 139);
+  line-height: 30px;
+  text-align: center;
+}
