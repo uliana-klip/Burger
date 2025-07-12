@@ -8,18 +8,17 @@ import styles from '../burger-ingredients-list/burger-ingredients-list.module.cs
 
 export const BurgerIngredientsList = ({ listName, arrs }) => {
   const [counts, setCounts] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
 
-  const counterIngredients = (name) => {
+  const counterIngredients = (item) => {
     setCounts((prev) => ({
       ...prev,
-      [name]: (prev[name] || 0) + 1,
+      [item]: (prev[item] || 0) + 1,
     }));
 
     console.log(counts);
   };
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [modalInfo, setModalInfo] = useState({});
 
   const modal = (
     <Modal>
@@ -30,13 +29,15 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
   );
 
   return (
-    <>
+    <div className={styles.burger_ingredients_container}>
       <h3>{listName}</h3>
       <section className={styles.burger_ingredients_type}>
         {arrs.map((item) => (
           <article
             onMouseEnter={() => setModalInfo(item)}
-            onClick={() => counterIngredients(item.name)}
+            onClick={() => {
+              counterIngredients(item.name);
+            }}
             className={styles.burger_ingredients_card}
             key={item._id}
           >
@@ -53,6 +54,6 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
         ))}
       </section>
       {isVisible && modal}
-    </>
+    </div>
   );
 };

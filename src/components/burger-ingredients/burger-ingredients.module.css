@@ -19,12 +19,9 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
-}
-
-.scroll {
-  align-self: center;
-  width: 10px;
-  height: 95%;
-  background-color: grey;
-  border-radius: 5px;
+  max-height: 800px;
+  padding-right: 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #6b4dff rgb(255 255 255 / 8%);
 }

@@ -9,28 +9,19 @@ export const BurgerIngredients = ({ ingredients }) => {
   const buns = ingredients.filter((bun) => bun.type === 'bun');
   const sauсes = ingredients.filter((sauce) => sauce.type === 'sauce');
   const mains = ingredients.filter((main) => main.type === 'main');
-
   const [isActive, setIsActive] = useState('bun');
 
-  const selected = (item) => {
-    console.log(item);
+  function selected(item) {
     if (isActive !== item) {
       setIsActive(item);
     }
-  };
+  }
 
   return (
     <section className={styles.burger_ingredients}>
       <nav>
         <ul className={styles.menu}>
-          <Tab
-            value="bun"
-            active={isActive === 'bun'}
-            onClick={selected}
-            // onClick={() => {
-            //   /* TODO */
-            // }}
-          >
+          <Tab value="bun" active={isActive === 'bun'} onClick={selected}>
             Булки
           </Tab>
 
@@ -52,20 +43,10 @@ export const BurgerIngredients = ({ ingredients }) => {
       </nav>
       <div className={styles.burger_ingredients_container}>
         <div>
-          {/* {isActive === 'bun' && (
-            <BurgerIngredientsList listName={'Булки'} arrs={buns} />
-          )}
-          {isActive === 'sauce' && (
-            <BurgerIngredientsList listName={'Соусы'} arrs={sauсes} />
-          )}
-          {isActive === 'main' && (
-            <BurgerIngredientsList listName={'Начинки'} arrs={mains} />
-          )} */}
           <BurgerIngredientsList listName={'Булки'} arrs={buns} />
           <BurgerIngredientsList listName={'Соусы'} arrs={sauсes} />
           <BurgerIngredientsList listName={'Начинки'} arrs={mains} />
         </div>
-        <article className={styles.scroll}></article>
       </div>
     </section>
   );

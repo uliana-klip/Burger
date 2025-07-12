@@ -8,6 +8,9 @@ import React from 'react';
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = ({ ingredients }) => {
+  if (!ingredients || !ingredients.length) {
+    return <p>Загружаем ингредиенты...</p>;
+  }
   const mains = ingredients.filter((main) => main.type === 'main').slice(0, 5);
   const buns = ingredients.filter((bun) => bun.type === 'bun');
 
