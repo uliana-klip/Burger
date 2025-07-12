@@ -1,8 +1,11 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+
+import { ingredientPropType } from '../../../utils/prop-types';
 
 import styles from './modal-ingredient-info.module.css';
 
-export const ModalIngredientInfo = ({ children, onClose }) => {
+export const ModalIngredientInfo = ({ ingredient, onClose }) => {
   return (
     <div className={styles.modal_info}>
       <section className={styles.modal_header}>
@@ -10,26 +13,31 @@ export const ModalIngredientInfo = ({ children, onClose }) => {
         <CloseIcon onClick={onClose} />
       </section>
 
-      <img src={children.image}></img>
-      <span className={styles.modal_name}>{children.name}</span>
+      <img src={ingredient.image}></img>
+      <span className={styles.modal_name}>{ingredient.name}</span>
       <section className={styles.info}>
         <p>
           Калории, ккал <br />
-          {children.calories}
+          {ingredient.calories}
         </p>
         <p>
           Белки, г<br />
-          {children.proteins}
+          {ingredient.proteins}
         </p>
         <p>
           Жиры, г<br />
-          {children.fat}
+          {ingredient.fat}
         </p>
         <p>
           Углеводы, г<br />
-          {children.carbohydrates}
+          {ingredient.carbohydrates}
         </p>
       </section>
     </div>
   );
+};
+
+ModalIngredientInfo.propTypes = {
+  ingredient: ingredientPropType.isRequired,
+  onClose: PropTypes.func.isRequired,
 };

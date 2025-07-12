@@ -1,6 +1,8 @@
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
+import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../modal/modal';
 import { ModalIngredientInfo } from '../modal/modal-ingredient-info/modal-ingredient-info';
 
@@ -14,17 +16,15 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
   const counterIngredients = (item) => {
     setCounts((prev) => ({
       ...prev,
-      [item]: (prev[item] || 0) + 1,
+      [item._id]: (prev[item._id] || 0) + 1,
     }));
 
     console.log(counts);
   };
 
   const modal = (
-    <Modal>
-      <ModalIngredientInfo onClose={() => setIsVisible(!isVisible)}>
-        {modalInfo}
-      </ModalIngredientInfo>
+    <Modal onClose={() => setIsVisible(false)}>
+      <ModalIngredientInfo ingredient={modalInfo} onClose={() => setIsVisible(false)} />
     </Modal>
   );
 
@@ -34,26 +34,33 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
       <section className={styles.burger_ingredients_type}>
         {arrs.map((item) => (
           <article
-            onMouseEnter={() => setModalInfo(item)}
             onClick={() => {
-              counterIngredients(item.name);
+              counterIngredients(item);
+              setIsVisible(!isVisible);
+              setModalInfo(item);
             }}
+            onMouseEnter={() => setModalInfo(item)}
             className={styles.burger_ingredients_card}
             key={item._id}
           >
             <img src={item.image} />
-            {counts[item.name] > 0 && (
-              <Counter count={counts[item.name]} size="default" />
+            {counts[item._id] > 0 && (
+              <Counter count={item.type === 'bun' ? 2 : 1} size="default" />
             )}
             <article className={styles.burger_ingredients_cardprice}>
               {item.price}
               <CurrencyIcon type="Primary" />
             </article>
-            <h1 onClick={() => setIsVisible(!isVisible)}>{item.name}</h1>
+            <h1>{item.name}</h1>
           </article>
         ))}
       </section>
       {isVisible && modal}
     </div>
   );
+};
+
+BurgerIngredientsList.propTypes = {
+  listName: PropTypes.string.isRequired,
+  arrs: PropTypes.arrayOf(ingredientPropType).isRequired,
 };

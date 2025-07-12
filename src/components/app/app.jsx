@@ -13,9 +13,9 @@ export const App = () => {
 
   useEffect(() => {
     fetch(BASE_URL)
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
       .then((json) => setIngredients(json.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Ошибка загрузки ингредиентов:', err));
   }, []);
 
   return (
