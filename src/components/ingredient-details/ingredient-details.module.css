@@ -1,0 +1,28 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal_img {
+  width: 80%;
+  margin-bottom: 16px;
+}
+
+.modal_name {
+  margin-bottom: 32px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.modal_info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 70px;
+  color: rgb(164 164 205);
+  font-size: 19px;
+  line-height: 30px;
+  text-align: center;
+}

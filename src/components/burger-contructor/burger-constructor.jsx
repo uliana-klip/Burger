@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 
 import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../modal/modal';
-import { ModalOrderDetails } from '../modal/modal-order-details/modal-order-details';
+import { OrderDetails } from '../order-details/order-details';
 
 import styles from './burger-constructor.module.css';
 
@@ -20,12 +20,12 @@ export const BurgerConstructor = ({ ingredients }) => {
     return <p>Загружаем ингредиенты...</p>;
   }
 
-  const mains = ingredients.filter((main) => main.type === 'main').slice(0, 5);
+  const mains = ingredients.filter((main) => main.type === 'main');
   const buns = ingredients.filter((bun) => bun.type === 'bun');
 
   const modal = (
     <Modal onClose={() => setIsVisible(false)}>
-      <ModalOrderDetails onClose={() => setIsVisible(false)} />
+      <OrderDetails onClose={() => setIsVisible(false)} />
     </Modal>
   );
 
@@ -36,48 +36,54 @@ export const BurgerConstructor = ({ ingredients }) => {
   return (
     <div className={styles.burger_constructor}>
       <section className={styles.burger_constructor_list}>
-        <div />
+        <DragIcon className={styles.drag_hidden} />
         <ConstructorElement
           // handleClose={function fee() {}}
           isLocked
           price={buns[0].price}
-          text={buns[0].name}
+          text={`${buns[0].name} (верх)`}
           thumbnail="https://react-burger-ui-components.practicum.com.ru/assets/img-CFqVEZmj.png"
           type="top"
         />
+      </section>
+      <div className={styles.burger_constructor_scroll}>
+        <section className={styles.burger_constructor_list}>
+          {mains.map((main) => (
+            <React.Fragment key={main._id}>
+              <DragIcon />
+              <ConstructorElement
+                // handleClose={function fee() {}}
+                price={main.price}
+                text={main.name}
+                thumbnail={main.image}
+              />
+            </React.Fragment>
+          ))}
+        </section>
+      </div>
 
-        {mains.map((main) => (
-          <React.Fragment key={main._id}>
-            <DragIcon />
-            <ConstructorElement
-              // handleClose={function fee() {}}
-              price={main.price}
-              text={main.name}
-              thumbnail={main.image}
-            />
-          </React.Fragment>
-        ))}
-        <div />
+      <section className={styles.burger_constructor_list}>
+        <DragIcon className={styles.drag_hidden} />
         <ConstructorElement
           // handleClose={function fee() {}}
           isLocked
           price={buns[0].price}
-          text={buns[0].name}
+          text={`${buns[0].name} (низ)`}
           thumbnail="https://react-burger-ui-components.practicum.com.ru/assets/img-CFqVEZmj.png"
           type="bottom"
         />
-        <div />
-        <section className={styles.burger_constructor_order}>
-          <article className={styles.total_price}>
-            <p className={styles.price_text}>{totalPrice}</p>
-            <div className={styles.currency_icon_large}>
-              <CurrencyIcon />
-            </div>
-          </article>
-          <Button onClick={() => setIsVisible(!isVisible)} size="large" type="primary">
-            Оформить заказ
-          </Button>
-        </section>
+      </section>
+      <div />
+      <section className={styles.burger_constructor_order}>
+        <article className={styles.total_price}>
+          <p className={styles.price_text}>{totalPrice}</p>
+          <div className={styles.currency_icon_large}>
+            <CurrencyIcon />
+          </div>
+        </article>
+        <Button onClick={() => setIsVisible(!isVisible)} size="large" type="primary">
+          Оформить заказ
+        </Button>
       </section>
 
       {isVisible && modal}

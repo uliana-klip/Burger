@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 import { ingredientPropType } from '../../utils/prop-types';
+import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { ModalIngredientInfo } from '../modal/modal-ingredient-info/modal-ingredient-info';
 
 import styles from '../burger-ingredients-list/burger-ingredients-list.module.css';
 
@@ -23,13 +23,13 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
   };
 
   const modal = (
-    <Modal onClose={() => setIsVisible(false)}>
-      <ModalIngredientInfo ingredient={modalInfo} onClose={() => setIsVisible(false)} />
+    <Modal title="Детали ингредиента" onClose={() => setIsVisible(false)}>
+      <IngredientDetails ingredient={modalInfo} />
     </Modal>
   );
 
   return (
-    <div className={styles.burger_ingredients_container}>
+    <div>
       <h3>{listName}</h3>
       <section className={styles.burger_ingredients_type}>
         {arrs.map((item) => (
@@ -43,7 +43,11 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
             className={styles.burger_ingredients_card}
             key={item._id}
           >
-            <img src={item.image} />
+            <img
+              src={item.image}
+              alt={item.name}
+              className={styles.burger_ingredients_img}
+            />
             {counts[item._id] > 0 && (
               <Counter count={item.type === 'bun' ? 2 : 1} size="default" />
             )}
@@ -51,7 +55,7 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
               {item.price}
               <CurrencyIcon type="Primary" />
             </article>
-            <h1>{item.name}</h1>
+            <p className={styles.burger_ingredients_name}>{item.name}</p>
           </article>
         ))}
       </section>

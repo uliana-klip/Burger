@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
+import BurgerIngredients from '@components/burger-ingredients/burger-ingredients-with-loading';
 
-// import { ingredients } from '@utils/ingredients';
 import styles from './app.module.css';
 
 export const App = () => {
   const BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
   const [ingredients, setIngredients] = useState([]);
+  const isLoading = ingredients.length === 0;
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -25,7 +25,7 @@ export const App = () => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
+        <BurgerIngredients isLoading={isLoading} ingredients={ingredients} />
         <BurgerConstructor ingredients={ingredients} />
       </main>
     </div>

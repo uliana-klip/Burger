@@ -1,9 +1,17 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
-  width: 600px;
-  padding-bottom: 20px;
+  justify-items: center;
+  gap: 20px;
   color: var(--text-primary-color);
+}
+
+.burger_constructor_scroll {
+  max-height: 500px;
+  padding-right: 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #6b4dff rgb(255 255 255 / 8%);
 }
 
 .burger_constructor_list {
@@ -13,6 +21,10 @@
   align-items: center;
   gap: 20px;
   width: max-content;
+}
+
+.drag_hidden {
+  visibility: hidden;
 }
 
 .burger_constructor_order {

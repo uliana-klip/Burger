@@ -1,13 +1,17 @@
+import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import ReactDom from 'react-dom';
+
+import { ModalOverlay } from './modal-overlay';
 
 import styles from '../modal/modal.module.css';
 
 const modalRoot = document.getElementById('react-modals');
 
-export default function Modal({ children, onClose }) {
+export default function Modal({ children, onClose, title }) {
   useEffect(() => {
+    console.log({ title });
     const handleEsc = (e) => {
       if (e.key === 'Escape' || e.code === 'Escape' || e.keyCode === 27) {
         if (onClose) onClose();
@@ -19,8 +23,14 @@ export default function Modal({ children, onClose }) {
 
   return ReactDom.createPortal(
     <>
-      <div className={styles.backdrop} onClick={() => onClose?.()} />
-      <div className={styles.window}>{children}</div>
+      <ModalOverlay onClick={onClose} />
+      <div className={styles.window}>
+        <section className={styles.modal_header}>
+          <p>{title}</p>
+          <CloseIcon onClick={onClose} className={styles.close_icon} />
+        </section>
+        {children}
+      </div>
     </>,
     modalRoot
   );

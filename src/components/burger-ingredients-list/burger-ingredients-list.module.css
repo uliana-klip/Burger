@@ -1,11 +1,13 @@
 h3 {
-  margin-top: 30px;
+  margin-top: 24px;
+  font-weight: 300;
+  font-size: 30px;
 }
 
 .burger_ingredients_type {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 24px;
 }
 
 .burger_ingredients_card {
@@ -14,9 +16,18 @@ h3 {
   text-align: center;
 }
 
+.burger_ingredients_img {
+  width: 100%;
+}
+
 .burger_ingredients_cardprice {
   display: flex;
   justify-content: center;
   gap: 10px;
-  font-size: 20px;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.burger_ingredients_name {
+  font-size: 18px;
 }
