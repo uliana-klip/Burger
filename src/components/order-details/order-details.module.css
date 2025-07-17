@@ -1,0 +1,40 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px clamp(20px, 5vw, 100px);
+  text-align: center;
+}
+
+.order_number {
+  margin-top: 0;
+  margin-bottom: 32px;
+  color: #f2f2f3;
+  font-size: 120px;
+  text-shadow: 0 0 2px blue;
+}
+
+.order_label {
+  margin-bottom: 60px;
+  color: white;
+  font-size: 25px;
+}
+
+.order_status_icon {
+  margin-bottom: 60px;
+  padding: 40px;
+  background-color: #292942;
+  border-radius: 50%;
+}
+
+.order_status_text {
+  margin-bottom: 8px;
+  color: #f2f2f3;
+  font-size: 20px;
+}
+
+.order_wait_text {
+  color: rgb(164 164 205);
+  font-size: 20px;
+}

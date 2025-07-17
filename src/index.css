@@ -1,5 +1,6 @@
-body {
+* {
   margin: 0;
+  padding: 0;
 }
 
 /* Fix for scrollbar */
@@ -11,6 +12,7 @@ body {
   }
 
   body {
+    font-family: 'Jet Brains Mono', serif;
     scrollbar-color: #8585ad #2f2f37;
     scrollbar-width: thin;
   }
