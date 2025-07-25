@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 import { ingredientPropType } from '../../utils/prop-types';
-import { BurgerIngredientsList } from '../burger-ingredients-list/burger-ingredients-list';
+import { BurgerIngredientsList } from './burger-ingrediens-list/burger-ingredients-list';
 
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = ({ ingredients }) => {
   const buns = ingredients.filter((bun) => bun.type === 'bun');
-  const sauсes = ingredients.filter((sauce) => sauce.type === 'sauce');
+  const sauces = ingredients.filter((sauce) => sauce.type === 'sauce');
   const mains = ingredients.filter((main) => main.type === 'main');
   const [isActive, setIsActive] = useState('bun');
 
@@ -31,23 +31,28 @@ export const BurgerIngredients = ({ ingredients }) => {
             Соусы
           </Tab>
 
-          <Tab
-            value="main"
-            active={isActive === 'main'}
-            onClick={selected}
-            // onClick={() => {
-            //   /* TODO */
-            // }}
-          >
+          <Tab value="main" active={isActive === 'main'} onClick={selected}>
             Начинки
           </Tab>
         </ul>
       </nav>
       <div className={styles.burger_ingredients_container}>
         <div>
-          <BurgerIngredientsList listName={'Булки'} arrs={buns} />
-          <BurgerIngredientsList listName={'Соусы'} arrs={sauсes} />
-          <BurgerIngredientsList listName={'Начинки'} arrs={mains} />
+          <BurgerIngredientsList
+            ingredients={ingredients}
+            listName={'Булки'}
+            arrs={buns}
+          />
+          <BurgerIngredientsList
+            ingredients={ingredients}
+            listName={'Соусы'}
+            arrs={sauces}
+          />
+          <BurgerIngredientsList
+            ingredients={ingredients}
+            listName={'Начинки'}
+            arrs={mains}
+          />
         </div>
       </div>
     </section>
