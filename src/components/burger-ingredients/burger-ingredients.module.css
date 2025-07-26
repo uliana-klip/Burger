@@ -19,7 +19,8 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
-  max-height: 800px;
+  max-height: 85%;
+  margin-top: 20px;
   padding-right: 8px;
   overflow-y: auto;
   scrollbar-width: thin;

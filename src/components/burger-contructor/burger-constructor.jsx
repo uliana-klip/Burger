@@ -1,77 +1,137 @@
 import {
+  addBun,
+  addIngredients,
+  clearBasket,
+  removeIngredients,
+  setNewOrder,
+} from '@/services/redux/basket/slice';
+import { clearOrder, fetchOrder } from '@/services/redux/order/slice';
+import {
   ConstructorElement,
   DragIcon,
   Button,
   CurrencyIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useMemo } from 'react';
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
+import { BurgerConstructorItem } from './burger-constructor-item/burger-constructor-item';
 
 import styles from './burger-constructor.module.css';
 
-export const BurgerConstructor = ({ ingredients }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  if (!ingredients || !ingredients.length) {
-    return <p>Загружаем ингредиенты...</p>;
-  }
-
-  const mains = ingredients.filter((main) => main.type === 'main');
-  const buns = ingredients.filter((bun) => bun.type === 'bun');
-
+export const BurgerConstructor = () => {
+  const dispatch = useDispatch();
   const modal = (
-    <Modal onClose={() => setIsVisible(false)}>
-      <OrderDetails onClose={() => setIsVisible(false)} />
+    <Modal
+      onClose={() => {
+        dispatch(clearOrder());
+        dispatch(clearBasket());
+      }}
+    >
+      <OrderDetails />
     </Modal>
   );
+  const [{ isOver }, dropRef] = useDrop({
+    accept: ['bun', 'main', 'sauce'],
+    drop: (item) => {
+      if (item.type === 'bun') {
+        dispatch(addBun(item));
+      } else {
+        dispatch(addIngredients(item));
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+  const selectedBun = useSelector((state) => state.basket.selectedBun);
+  const selectedIngredients = useSelector((state) => state.basket.selectedIngredients);
+  const { orderNumber, orderRequest } = useSelector((state) => state.order);
 
-  const totalPrice =
-    buns.length > 0
-      ? buns[0].price * 2 + mains.reduce((sum, item) => sum + item.price, 0)
-      : 0;
-  return (
-    <div className={styles.burger_constructor}>
+  const handleClose = (uid) => {
+    dispatch(removeIngredients(uid));
+  };
+
+  const totalPrice = useMemo(() => {
+    if (!selectedBun) return 0;
+    const ingredientsSum = selectedIngredients.reduce(
+      (sum, item) => sum + item.price,
+      0
+    );
+    return selectedBun.price * 2 + ingredientsSum;
+  }, [selectedBun, selectedIngredients]);
+
+  const ingredientsIds = selectedIngredients.map((ing) => ing._id);
+  // console.log(`'детали заказа:' ${ingredientsIds}`);
+  const moveIngredient = (fromIndex, toIndex) => {
+    const updated = [...selectedIngredients];
+    const [movedItem] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, movedItem);
+    dispatch(setNewOrder(updated));
+  };
+
+  return !selectedBun && selectedIngredients.length === 0 ? (
+    <div
+      className={styles.before_order}
+      ref={dropRef}
+      style={{ border: isOver ? '2px dashed #3d2b93ff' : 'none' }}
+    >
+      <span>Пока ничего не выбрано...</span>
+      <span>добавьте, пожалуйста булку и начинку</span>
+      <span>(перетяните сюда)</span>
+    </div>
+  ) : (
+    <div
+      ref={dropRef}
+      style={{ border: isOver ? '2px dashed #3d2b93ff' : 'none' }}
+      className={styles.burger_constructor}
+    >
       <section className={styles.burger_constructor_list}>
         <DragIcon className={styles.drag_hidden} />
-        <ConstructorElement
-          // handleClose={function fee() {}}
-          isLocked
-          price={buns[0].price}
-          text={`${buns[0].name} (верх)`}
-          thumbnail="https://react-burger-ui-components.practicum.com.ru/assets/img-CFqVEZmj.png"
-          type="top"
-        />
+        {!selectedBun ? (
+          <span style={{ textAlign: 'center', fontSize: '20px' }}>
+            кажется не хватает булки...
+          </span>
+        ) : (
+          <ConstructorElement
+            isLocked
+            price={selectedBun.price}
+            text={`${selectedBun.name} (верх)`}
+            thumbnail={selectedBun.image}
+            type="top"
+          />
+        )}
       </section>
       <div className={styles.burger_constructor_scroll}>
-        <section className={styles.burger_constructor_list}>
-          {mains.map((main) => (
-            <React.Fragment key={main._id}>
-              <DragIcon />
-              <ConstructorElement
-                // handleClose={function fee() {}}
-                price={main.price}
-                text={main.name}
-                thumbnail={main.image}
-              />
-            </React.Fragment>
+        <div style={{ minWidth: '500px' }}>
+          {selectedIngredients.map((ingredient, index) => (
+            <BurgerConstructorItem
+              key={ingredient.uid}
+              item={ingredient}
+              index={index}
+              handleClose={handleClose}
+              moveIngredient={moveIngredient}
+            />
           ))}
-        </section>
+        </div>
       </div>
 
       <section className={styles.burger_constructor_list}>
         <DragIcon className={styles.drag_hidden} />
-        <ConstructorElement
-          // handleClose={function fee() {}}
-          isLocked
-          price={buns[0].price}
-          text={`${buns[0].name} (низ)`}
-          thumbnail="https://react-burger-ui-components.practicum.com.ru/assets/img-CFqVEZmj.png"
-          type="bottom"
-        />
+        {!selectedBun ? (
+          <span style={{ textAlign: 'center', fontSize: '20px' }}>и тут...</span>
+        ) : (
+          <ConstructorElement
+            isLocked
+            price={selectedBun.price}
+            text={`${selectedBun.name} (низ)`}
+            thumbnail={selectedBun.image}
+            type="bottom"
+          />
+        )}
       </section>
       <div />
       <section className={styles.burger_constructor_order}>
@@ -81,16 +141,19 @@ export const BurgerConstructor = ({ ingredients }) => {
             <CurrencyIcon />
           </div>
         </article>
-        <Button onClick={() => setIsVisible(!isVisible)} size="large" type="primary">
-          Оформить заказ
+        <Button
+          disabled={orderRequest || !selectedBun || selectedIngredients.length === 0}
+          onClick={() => {
+            dispatch(fetchOrder(ingredientsIds));
+          }}
+          size="large"
+          type="primary"
+        >
+          {orderRequest ? 'Отправляем...' : 'Оформить заказ'}
         </Button>
       </section>
 
-      {isVisible && modal}
+      {orderNumber && modal}
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };

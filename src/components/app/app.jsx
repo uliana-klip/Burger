@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { fetchIngredients } from '@/services/redux/ingredients/slice';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor';
@@ -7,16 +9,13 @@ import BurgerIngredients from '@components/burger-ingredients/burger-ingredients
 import styles from './app.module.css';
 
 export const App = () => {
-  const BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
-  const [ingredients, setIngredients] = useState([]);
-  const isLoading = ingredients.length === 0;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(BASE_URL)
-      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-      .then((json) => setIngredients(json.data))
-      .catch((err) => console.error('Ошибка загрузки ингредиентов:', err));
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
 
   return (
     <div className={styles.app}>
@@ -25,7 +24,7 @@ export const App = () => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients isLoading={isLoading} ingredients={ingredients} />
+        <BurgerIngredients ingredients={ingredients} />
         <BurgerConstructor ingredients={ingredients} />
       </main>
     </div>
