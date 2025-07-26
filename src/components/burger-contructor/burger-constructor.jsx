@@ -1,4 +1,10 @@
-import { clearBasket, removeIngredients } from '@/services/redux/basket/slice';
+import {
+  addBun,
+  addIngredients,
+  clearBasket,
+  removeIngredients,
+  setNewOrder,
+} from '@/services/redux/basket/slice';
 import { clearOrder, fetchOrder } from '@/services/redux/order/slice';
 import {
   ConstructorElement,
@@ -6,28 +12,48 @@ import {
   Button,
   CurrencyIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
-// import { useDrop } from 'react-dnd';
+import { useMemo } from 'react';
+import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ingredientPropType } from '../../utils/prop-types';
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
+import { BurgerConstructorItem } from './burger-constructor-item/burger-constructor-item';
 
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const modal = (
+    <Modal
+      onClose={() => {
+        dispatch(clearOrder());
+        dispatch(clearBasket());
+      }}
+    >
+      <OrderDetails />
+    </Modal>
+  );
+  const [{ isOver }, dropRef] = useDrop({
+    accept: ['bun', 'main', 'sauce'],
+    drop: (item) => {
+      if (item.type === 'bun') {
+        dispatch(addBun(item));
+      } else {
+        dispatch(addIngredients(item));
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
   const selectedBun = useSelector((state) => state.basket.selectedBun);
   const selectedIngredients = useSelector((state) => state.basket.selectedIngredients);
   const { orderNumber, orderRequest } = useSelector((state) => state.order);
-  const dispatch = useDispatch();
+
   const handleClose = (uid) => {
     dispatch(removeIngredients(uid));
   };
-
-  // const [isVisible, setIsVisible] = useState(false);
-  // console.log(selectedIngredients);
 
   const totalPrice = useMemo(() => {
     if (!selectedBun) return 0;
@@ -40,29 +66,29 @@ export const BurgerConstructor = () => {
 
   const ingredientsIds = selectedIngredients.map((ing) => ing._id);
   console.log(`'детали заказа:' ${ingredientsIds}`);
-  if (!selectedBun && selectedIngredients.length === 0) {
-    return (
-      <div className={styles.before_order}>
-        <span>Пока ничего не выбрано...</span>
-        <span>добавьте, пожалуйста булку и начинку</span>
-        <span>(перетяните сюда)</span>
-      </div>
-    );
-  }
+  const moveIngredient = (fromIndex, toIndex) => {
+    const updated = [...selectedIngredients];
+    const [movedItem] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, movedItem);
+    dispatch(setNewOrder(updated));
+  };
 
-  const modal = (
-    <Modal
-      onClose={() => {
-        dispatch(clearOrder());
-        dispatch(clearBasket());
-      }}
+  return !selectedBun && selectedIngredients.length === 0 ? (
+    <div
+      className={styles.before_order}
+      ref={dropRef}
+      style={{ border: isOver ? '2px dashed #3d2b93ff' : 'none' }}
     >
-      <OrderDetails />
-    </Modal>
-  );
-
-  return (
-    <div className={styles.burger_constructor}>
+      <span>Пока ничего не выбрано...</span>
+      <span>добавьте, пожалуйста булку и начинку</span>
+      <span>(перетяните сюда)</span>
+    </div>
+  ) : (
+    <div
+      ref={dropRef}
+      style={{ border: isOver ? '2px dashed #3d2b93ff' : 'none' }}
+      className={styles.burger_constructor}
+    >
       <section className={styles.burger_constructor_list}>
         <DragIcon className={styles.drag_hidden} />
         {!selectedBun ? (
@@ -71,7 +97,6 @@ export const BurgerConstructor = () => {
           </span>
         ) : (
           <ConstructorElement
-            // handleClose={function fee() {}}
             isLocked
             price={selectedBun.price}
             text={`${selectedBun.name} (верх)`}
@@ -81,20 +106,17 @@ export const BurgerConstructor = () => {
         )}
       </section>
       <div className={styles.burger_constructor_scroll}>
-        <section className={styles.burger_constructor_list}>
-          {selectedIngredients.map((ingredient) => (
-            <React.Fragment key={ingredient.uid}>
-              <DragIcon />
-
-              <ConstructorElement
-                handleClose={() => handleClose(ingredient.uid)}
-                price={ingredient.price}
-                text={ingredient.name}
-                thumbnail={ingredient.image}
-              />
-            </React.Fragment>
+        <div style={{ minWidth: '500px' }}>
+          {selectedIngredients.map((ingredient, index) => (
+            <BurgerConstructorItem
+              key={ingredient.uid}
+              item={ingredient}
+              index={index}
+              handleClose={handleClose}
+              moveIngredient={moveIngredient}
+            />
           ))}
-        </section>
+        </div>
       </div>
 
       <section className={styles.burger_constructor_list}>
@@ -103,7 +125,6 @@ export const BurgerConstructor = () => {
           <span style={{ textAlign: 'center', fontSize: '20px' }}>и тут...</span>
         ) : (
           <ConstructorElement
-            // handleClose={function fee() {}}
             isLocked
             price={selectedBun.price}
             text={`${selectedBun.name} (низ)`}
@@ -135,8 +156,4 @@ export const BurgerConstructor = () => {
       {orderNumber && modal}
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };

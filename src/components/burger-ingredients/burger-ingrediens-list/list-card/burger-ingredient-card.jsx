@@ -1,7 +1,9 @@
-import { addBun, addIngredients } from '@/services/redux/basket/slice';
+// import { addBun, addIngredients } from '@/services/redux/basket/slice';
+import { ingredientPropType } from '@/utils/prop-types';
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import { setIngredient } from '../../../../services/redux/details/slice';
 
@@ -19,7 +21,7 @@ export const BurgerIngredientCard = ({ item }) => {
 
   const [{ isDragging }, dragRef] = useDrag({
     type: item.type,
-    item: { id: item._id, type: item.type },
+    item: { ...item, uid: uuidv4() },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -31,11 +33,6 @@ export const BurgerIngredientCard = ({ item }) => {
         ref={dragRef}
         onClick={() => {
           dispatch(setIngredient(item));
-          if (item.type !== 'bun') {
-            dispatch(addIngredients(item));
-          } else if (item.type === 'bun') {
-            dispatch(addBun(item));
-          }
         }}
         className={styles.burger_ingredients_card}
         style={{ opacity: isDragging ? 0.5 : 1 }}
@@ -60,4 +57,8 @@ export const BurgerIngredientCard = ({ item }) => {
       </article>
     </section>
   );
+};
+
+BurgerIngredientCard.propTypes = {
+  item: ingredientPropType.isRequired,
 };

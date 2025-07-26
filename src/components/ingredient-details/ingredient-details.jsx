@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { ingredientPropType } from '../../utils/prop-types';
 
 import styles from './ingredient-details.module.css';
@@ -36,5 +34,4 @@ export const IngredientDetails = ({ ingredient }) => {
 
 IngredientDetails.propTypes = {
   ingredient: ingredientPropType.isRequired,
-  onClose: PropTypes.func.isRequired,
 };

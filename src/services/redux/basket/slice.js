@@ -17,15 +17,18 @@ const basketSlice = createSlice({
       );
     },
     addBun: (state, action) => {
-      state.selectedBun = action.payload;
+      state.selectedBun = { ...action.payload, uid: uuidv4() };
     },
     clearBasket: (state) => {
       state.selectedIngredients = [];
       state.selectedBun = null;
     },
+    setNewOrder: (state, action) => {
+      state.selectedIngredients = action.payload;
+    },
   },
 });
 
-export const { addIngredients, addBun, removeIngredients, clearBasket } =
+export const { addIngredients, addBun, removeIngredients, clearBasket, setNewOrder } =
   basketSlice.actions;
 export default basketSlice.reducer;
