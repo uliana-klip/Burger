@@ -25,7 +25,6 @@ export const BurgerIngredientsList = ({ listName, arrs }) => {
   selectedIngredients.forEach((item) => {
     const key = item.name;
     counts[key] = (counts[key] || 0) + 1;
-    console.log(selectedIngredients);
   });
   return (
     <div>

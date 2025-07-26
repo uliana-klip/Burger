@@ -65,7 +65,7 @@ export const BurgerConstructor = () => {
   }, [selectedBun, selectedIngredients]);
 
   const ingredientsIds = selectedIngredients.map((ing) => ing._id);
-  console.log(`'детали заказа:' ${ingredientsIds}`);
+  // console.log(`'детали заказа:' ${ingredientsIds}`);
   const moveIngredient = (fromIndex, toIndex) => {
     const updated = [...selectedIngredients];
     const [movedItem] = updated.splice(fromIndex, 1);

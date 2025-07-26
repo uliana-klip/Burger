@@ -46,5 +46,5 @@ BurgerConstructorItem.propTypes = {
   item: ingredientPropType.isRequired,
   index: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
-  moveIngredient: PropTypes.funс.isRequired,
+  moveIngredient: PropTypes.func.isRequired,
 };
