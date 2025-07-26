@@ -13,6 +13,7 @@ h3 {
 .burger_ingredients_card {
   position: relative;
   align-items: center;
+  padding-top: 24px;
   text-align: center;
 }
 

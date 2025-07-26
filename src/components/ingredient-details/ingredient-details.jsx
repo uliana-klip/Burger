@@ -1,31 +1,31 @@
-import PropTypes from 'prop-types';
-
 import { ingredientPropType } from '../../utils/prop-types';
 
 import styles from './ingredient-details.module.css';
 
 export const IngredientDetails = ({ ingredient }) => {
+  const { image, name, calories, proteins, fat, carbohydrates } = ingredient;
+
   return (
     <div className={styles.modal}>
-      <img src={ingredient.image} alt={ingredient.name} className={styles.modal_img} />
+      <img src={image} alt={name} className={styles.modal_img} />
 
-      <span className={styles.modal_name}>{ingredient.name}</span>
+      <span className={styles.modal_name}>{name}</span>
       <section className={styles.modal_info}>
         <p>
           Калории, ккал <br />
-          {ingredient.calories}
+          {calories}
         </p>
         <p>
           Белки, г<br />
-          {ingredient.proteins}
+          {proteins}
         </p>
         <p>
           Жиры, г<br />
-          {ingredient.fat}
+          {fat}
         </p>
         <p>
           Углеводы, г<br />
-          {ingredient.carbohydrates}
+          {carbohydrates}
         </p>
       </section>
     </div>
@@ -34,5 +34,4 @@ export const IngredientDetails = ({ ingredient }) => {
 
 IngredientDetails.propTypes = {
   ingredient: ingredientPropType.isRequired,
-  onClose: PropTypes.func.isRequired,
 };

@@ -1,0 +1,7 @@
+.burger_constructor_items {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 0;
+}

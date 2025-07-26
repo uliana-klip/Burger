@@ -1,13 +1,26 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   justify-items: center;
   gap: 20px;
+  max-height: 80%;
   color: var(--text-primary-color);
 }
 
+.before_order {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  max-height: 80%;
+  padding: 20px;
+  font-size: 24px;
+}
+
 .burger_constructor_scroll {
-  max-height: 500px;
+  max-height: 80%;
   padding-right: 8px;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -17,10 +30,8 @@
 .burger_constructor_list {
   display: grid;
   grid-template-columns: auto 1fr;
-  justify-content: end;
   align-items: center;
   gap: 20px;
-  width: max-content;
 }
 
 .drag_hidden {
