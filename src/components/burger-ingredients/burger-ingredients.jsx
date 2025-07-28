@@ -1,16 +1,16 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { ingredientPropType } from '../../utils/prop-types';
 import { BurgerIngredientsList } from './burger-ingrediens-list/burger-ingredients-list';
 
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = ({ ingredients }) => {
-  const buns = ingredients.filter((bun) => bun.type === 'bun');
-  const sauces = ingredients.filter((sauce) => sauce.type === 'sauce');
-  const mains = ingredients.filter((main) => main.type === 'main');
+export const BurgerIngredients = () => {
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const buns = ingredients.filter((ing) => ing.type === 'bun');
+  const sauce = ingredients.filter((ing) => ing.type === 'sauce');
+  const main = ingredients.filter((ing) => ing.type === 'main');
   const [isActive, setIsActive] = useState('bun');
 
   function selected(tab) {
@@ -75,32 +75,16 @@ export const BurgerIngredients = ({ ingredients }) => {
       <div className={styles.burger_ingredients_container} ref={containerRef}>
         <div>
           <div ref={bunRef}>
-            <BurgerIngredientsList
-              ingredients={ingredients}
-              listName={'Булки'}
-              arrs={buns}
-            />
+            <BurgerIngredientsList items={buns} title="Булки" />
           </div>
           <div ref={sauceRef}>
-            <BurgerIngredientsList
-              ingredients={ingredients}
-              listName={'Соусы'}
-              arrs={sauces}
-            />
+            <BurgerIngredientsList items={sauce} title="Соусы" />
           </div>
           <div ref={mainRef}>
-            <BurgerIngredientsList
-              ingredients={ingredients}
-              listName={'Начинки'}
-              arrs={mains}
-            />
+            <BurgerIngredientsList items={main} title="Начинки" />
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };

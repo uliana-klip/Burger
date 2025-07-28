@@ -1,11 +1,10 @@
+import request from '@/utils/request';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-export const BASE_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    const res = await fetch(BASE_URL);
-    return await res.json();
+    return request('/ingredients');
   }
 );
 const ingredientsSlice = createSlice({
@@ -13,6 +12,7 @@ const ingredientsSlice = createSlice({
   initialState: {
     ingredients: [],
     ingredientsRequest: false,
+    ingredientFulfiled: false,
     ingredientsError: null,
   },
   reducers: {},
@@ -25,6 +25,7 @@ const ingredientsSlice = createSlice({
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.ingredients = action.payload.data;
         state.ingredientsRequest = false;
+        state.ingredientFulfiled = true;
         state.ingredientsError = false;
       })
       .addCase(fetchIngredients.rejected, (state, action) => {

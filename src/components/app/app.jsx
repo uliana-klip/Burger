@@ -1,6 +1,6 @@
 import { fetchIngredients } from '@/services/redux/ingredients/slice';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor';
@@ -15,8 +15,6 @@ export const App = () => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -24,8 +22,8 @@ export const App = () => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
+        <BurgerIngredients />
+        <BurgerConstructor />
       </main>
     </div>
   );

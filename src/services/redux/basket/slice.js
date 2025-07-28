@@ -8,16 +8,30 @@ const basketSlice = createSlice({
     selectedBun: null,
   },
   reducers: {
-    addIngredients: (state, action) => {
-      state.selectedIngredients.push({ ...action.payload, uid: uuidv4() });
+    addIngredients: {
+      reducer(state, action) {
+        state.selectedIngredients.push(action.payload);
+      },
+      prepare: (ingredient) => {
+        return {
+          payload: { ...ingredient, uid: uuidv4() },
+        };
+      },
     },
     removeIngredients: (state, action) => {
       state.selectedIngredients = state.selectedIngredients.filter(
         (item) => item.uid !== action.payload
       );
     },
-    addBun: (state, action) => {
-      state.selectedBun = { ...action.payload, uid: uuidv4() };
+    addBun: {
+      reducer(state, action) {
+        state.selectedBun = action.payload;
+      },
+      prepare: (bun) => {
+        return {
+          payload: { ...bun, uid: uuidv4() },
+        };
+      },
     },
     clearBasket: (state) => {
       state.selectedIngredients = [];

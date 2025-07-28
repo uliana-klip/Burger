@@ -25,7 +25,7 @@ export default function Modal({ children, onClose, title }) {
       <ModalOverlay onClick={onClose} />
       <div className={styles.window}>
         <section className={styles.modal_header}>
-          <p>{title}</p>
+          {title && <p>{title}</p>}
           <CloseIcon onClick={onClose} className={styles.close_icon} />
         </section>
         {children}
@@ -37,6 +37,6 @@ export default function Modal({ children, onClose, title }) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
 };
