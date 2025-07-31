@@ -1,0 +1,21 @@
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+h2 {
+  padding: 24px 0;
+}
+
+p {
+  margin-top: 60px;
+}
+
+.profile_right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-left: 60px;
+}
