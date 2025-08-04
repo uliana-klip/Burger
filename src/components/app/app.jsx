@@ -6,13 +6,14 @@ import { Profile } from '@/pages/profile/profile';
 import { Register } from '@/pages/register/register';
 import { ResetPassword } from '@/pages/reset-password/reset-password';
 import { fetchIngredients } from '@/services/redux/ingredients/slice';
-import { setUser } from '@/services/redux/user/slice';
+import { setAuthChecked, setUser } from '@/services/redux/user/slice';
 import { userRequest } from '@/utils/api';
 import { getCookie } from '@/utils/cookie';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
+import ProtectedRoute from '../protected-route/protected-route';
 import { AppHeader } from '@components/app-header/app-header';
 
 import styles from './app.module.css';
@@ -25,14 +26,21 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+
     const initUser = async () => {
       const token = getCookie('token');
       if (token) {
-        const res = await userRequest();
-        dispatch(setUser(res.user));
+        try {
+          const res = await userRequest();
+          dispatch(setUser(res.user));
+        } catch {
+          dispatch(setAuthChecked());
+        }
+      } else {
+        dispatch(setAuthChecked());
       }
     };
-    initUser(dispatch);
+    initUser();
   }, [dispatch]);
 
   return (
@@ -43,7 +51,9 @@ export const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
       </Routes>

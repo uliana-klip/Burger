@@ -25,7 +25,7 @@ export const AppHeader = () => {
         <div className={styles.logo}>
           <Logo />
         </div>
-        <a href="/register" className={`${styles.link} ${styles.link_position_last}`}>
+        <a href="/login" className={`${styles.link} ${styles.link_position_last}`}>
           {/* <a href="/profile" className={`${styles.link} ${styles.link_position_last}`}> */}
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default ml-2">Личный кабинет</p>

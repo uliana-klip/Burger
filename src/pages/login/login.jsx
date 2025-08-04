@@ -32,8 +32,8 @@ export const Login = () => {
     console.log(token);
   };
   return (
-    <div>
-      <form className={styles.container} onSubmit={handleSubmit}>
+    <div className={styles.container}>
+      <form style={{ margin: '0' }} className={styles.container} onSubmit={handleSubmit}>
         <h2 className={styles}>Вход</h2>
         <EmailInput
           name="email"

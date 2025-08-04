@@ -13,8 +13,11 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.isAuthChecked = true;
     },
+    setAuthChecked: (state) => {
+      state.isAuthChecked = true;
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { setUser } = userSlice.actions;
+export const { setUser, setAuthChecked } = userSlice.actions;
