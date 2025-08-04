@@ -13,7 +13,7 @@
   left: 50%;
   z-index: 1001;
   max-width: 50%;
-  padding: 40px 40px 60px;
+  padding: 40px;
   overflow-y: auto;
   background: #262424fa;
   border-radius: 20px;
@@ -23,9 +23,20 @@
 .modal_header {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  font-size: 45px;
+  font-size: 36px;
+}
+
+.modal_header_r {
+  justify-content: flex-end;
+}
+
+.modal_header_c {
+  justify-content: space-between;
+}
+
+.title {
+  margin-right: 130px;
 }
 
 .close_icon {

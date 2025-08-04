@@ -41,8 +41,7 @@ export const BurgerIngredients = () => {
       const bunOffset = Math.abs(bunTop - containerTop);
       const sauceOffset = Math.abs(sauceTop - containerTop);
       const mainOffset = Math.abs(mainTop - containerTop);
-      console.log('Offsets:', { bunOffset, sauceOffset, mainOffset });
-      console.log('Active tab:', isActive);
+
       if (bunOffset < sauceOffset && bunOffset < mainOffset) {
         setIsActive('bun');
       } else if (sauceOffset < mainOffset) {

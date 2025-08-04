@@ -3,6 +3,7 @@ import { ingredientPropType } from '@/utils/prop-types';
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { setIngredient } from '../../../../services/redux/details/slice';
@@ -11,6 +12,8 @@ import styles from '../../burger-ingrediens-list/burger-ingredients-list.module.
 
 export const BurgerIngredientCard = ({ item }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const selectedIngredients = useSelector((state) => state.basket.selectedIngredients);
   const selectedBun = useSelector((state) => state.basket.selectedBun);
   const counts = [];
@@ -27,13 +30,15 @@ export const BurgerIngredientCard = ({ item }) => {
     }),
   });
 
+  const handleClick = (item) => {
+    dispatch(setIngredient(item));
+    navigate(`/ingredients/${item._id}`, { state: { background: location } });
+  };
   return (
     <section>
       <article
         ref={dragRef}
-        onClick={() => {
-          dispatch(setIngredient(item));
-        }}
+        onClick={() => handleClick(item)}
         className={styles.burger_ingredients_card}
         style={{ opacity: isDragging ? 0.5 : 1 }}
       >

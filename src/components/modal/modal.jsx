@@ -24,8 +24,10 @@ export default function Modal({ children, onClose, title }) {
     <>
       <ModalOverlay onClick={onClose} />
       <div className={styles.window}>
-        <section className={styles.modal_header}>
-          {title && <p>{title}</p>}
+        <section
+          className={`${styles.modal_header} ${title ? styles.modal_header_c : styles.modal_header_r}`}
+        >
+          {title && <span className={styles.title}>{title}</span>}
           <CloseIcon onClick={onClose} className={styles.close_icon} />
         </section>
         {children}

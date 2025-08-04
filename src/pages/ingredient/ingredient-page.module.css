@@ -2,15 +2,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: 120px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: rgb(242 242 242);
+  font-size: 36px;
+  opacity: 0.8;
 }
 
 .modal_img {
-  width: 80%;
+  width: 70%;
   margin-bottom: 16px;
 }
 
 .modal_name {
   font-size: 30px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.modal_footer {
   text-align: center;
 }
 
@@ -19,7 +36,7 @@
   grid-template-columns: repeat(4, auto);
   justify-content: space-between;
   gap: 20px;
-  padding-top: 32px;
+  padding: 32px 50px;
   color: rgb(164 164 205);
   font-size: 19px;
   line-height: 30px;

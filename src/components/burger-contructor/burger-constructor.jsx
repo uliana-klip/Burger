@@ -23,6 +23,9 @@ import { BurgerConstructorItem } from './burger-constructor-item/burger-construc
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
+  const bunTop = 'https://code.s3.yandex.net/react/code/bun-01.png';
+  const bunBottom = 'https://code.s3.yandex.net/react/code/bun-02.png';
+  const sauce = 'https://code.s3.yandex.net/react/code/sp_1.png';
   const dispatch = useDispatch();
   const modal = (
     <Modal
@@ -56,7 +59,9 @@ export const BurgerConstructor = () => {
   };
 
   const totalPrice = useMemo(() => {
-    if (!selectedBun) return 0;
+    if (!selectedBun) {
+      return selectedIngredients.reduce((sum, item) => sum + item.price, 0);
+    }
     const ingredientsSum = selectedIngredients.reduce(
       (sum, item) => sum + item.price,
       0
@@ -65,7 +70,7 @@ export const BurgerConstructor = () => {
   }, [selectedBun, selectedIngredients]);
 
   const ingredientsIds = selectedIngredients.map((ing) => ing._id);
-  // console.log(`'детали заказа:' ${ingredientsIds}`);
+
   const moveIngredient = (fromIndex, toIndex) => {
     const updated = [...selectedIngredients];
     const [movedItem] = updated.splice(fromIndex, 1);
@@ -73,17 +78,7 @@ export const BurgerConstructor = () => {
     dispatch(setNewOrder(updated));
   };
 
-  return !selectedBun && selectedIngredients.length === 0 ? (
-    <div
-      className={styles.before_order}
-      ref={dropRef}
-      style={{ border: isOver ? '2px dashed #3d2b93ff' : 'none' }}
-    >
-      <span>Пока ничего не выбрано...</span>
-      <span>добавьте, пожалуйста булку и начинку</span>
-      <span>(перетяните сюда)</span>
-    </div>
-  ) : (
+  return (
     <div
       ref={dropRef}
       style={{ border: isOver ? '2px dashed #3d2b93ff' : 'none' }}
@@ -92,9 +87,14 @@ export const BurgerConstructor = () => {
       <section className={styles.burger_constructor_list}>
         <DragIcon className={styles.drag_hidden} />
         {!selectedBun ? (
-          <span style={{ textAlign: 'center', fontSize: '20px' }}>
-            кажется не хватает булки...
-          </span>
+          <ConstructorElement
+            isLocked
+            price="0"
+            text="добавьте, пожалуйста булку"
+            thumbnail={bunTop}
+            type="top"
+            extraClass={styles.noselected_element}
+          />
         ) : (
           <ConstructorElement
             isLocked
@@ -107,22 +107,42 @@ export const BurgerConstructor = () => {
       </section>
       <div className={styles.burger_constructor_scroll}>
         <div style={{ minWidth: '500px' }}>
-          {selectedIngredients.map((ingredient, index) => (
-            <BurgerConstructorItem
-              key={ingredient.uid}
-              item={ingredient}
-              index={index}
-              handleClose={handleClose}
-              moveIngredient={moveIngredient}
-            />
-          ))}
+          {selectedIngredients.length === 0 ? (
+            <section className={styles.burger_constructor_list}>
+              <DragIcon className={styles.drag_hidden} />
+              <ConstructorElement
+                isLocked
+                price="0"
+                text="добавьте, пожалуйста начинку"
+                thumbnail={sauce}
+                extraClass={styles.noselected_element}
+              />
+            </section>
+          ) : (
+            selectedIngredients.map((ingredient, index) => (
+              <BurgerConstructorItem
+                key={ingredient.uid}
+                item={ingredient}
+                index={index}
+                handleClose={handleClose}
+                moveIngredient={moveIngredient}
+              />
+            ))
+          )}
         </div>
       </div>
 
       <section className={styles.burger_constructor_list}>
         <DragIcon className={styles.drag_hidden} />
         {!selectedBun ? (
-          <span style={{ textAlign: 'center', fontSize: '20px' }}>и тут...</span>
+          <ConstructorElement
+            isLocked
+            price="0"
+            text="добавьте, пожалуйста булку"
+            thumbnail={bunBottom}
+            type="bottom"
+            extraClass={styles.noselected_element}
+          />
         ) : (
           <ConstructorElement
             isLocked
@@ -134,9 +154,10 @@ export const BurgerConstructor = () => {
         )}
       </section>
       <div />
+
       <section className={styles.burger_constructor_order}>
         <article className={styles.total_price}>
-          <p className={styles.price_text}>{totalPrice}</p>
+          <span className={styles.price_text}>{totalPrice}</span>
           <div className={styles.currency_icon_large}>
             <CurrencyIcon />
           </div>

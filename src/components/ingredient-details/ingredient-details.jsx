@@ -11,22 +11,22 @@ export const IngredientDetails = ({ ingredient }) => {
 
       <span className={styles.modal_name}>{name}</span>
       <section className={styles.modal_info}>
-        <p>
-          Калории, ккал <br />
+        <span>
+          Калории,ккал <br />
           {calories}
-        </p>
-        <p>
+        </span>
+        <span>
           Белки, г<br />
           {proteins}
-        </p>
-        <p>
+        </span>
+        <span>
           Жиры, г<br />
           {fat}
-        </p>
-        <p>
+        </span>
+        <span>
           Углеводы, г<br />
           {carbohydrates}
-        </p>
+        </span>
       </section>
     </div>
   );

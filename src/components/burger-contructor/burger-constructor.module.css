@@ -19,6 +19,10 @@
   font-size: 24px;
 }
 
+.noselected_element {
+  opacity: 0.5;
+}
+
 .burger_constructor_scroll {
   max-height: 80%;
   padding-right: 8px;
