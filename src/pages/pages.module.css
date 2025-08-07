@@ -1,18 +1,23 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 24px;
   max-width: 480px;
-  margin: 80px auto;
+  margin: auto;
+  text-align: center;
 }
 
-h2 {
-  font-size: 24px;
+form {
+  all: unset;
+}
+
+.styles.container_form {
+  display: flex;
+  flex-direction: column;
 }
 
 .button {
-  margin-bottom: 56px;
+  margin: 24px 0 56px;
 }
 
 .page_header {
@@ -26,4 +31,8 @@ h2 {
 .link_text {
   padding: 0 10px;
   font-size: 16px;
+}
+
+.loader {
+  margin: auto;
 }

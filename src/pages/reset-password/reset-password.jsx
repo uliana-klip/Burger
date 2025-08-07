@@ -1,3 +1,4 @@
+import { resetPassword } from '@/utils/api';
 import {
   Button,
   Input,
@@ -10,6 +11,7 @@ import styles from '../pages.module.css';
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
+
   useEffect(() => {
     const allowed = localStorage.getItem('resetAllowed');
     if (allowed !== 'true') {
@@ -17,57 +19,61 @@ export const ResetPassword = () => {
     }
   }, []);
   //временно
-  const [data, setData] = useState({});
-  const [isError, setIsError] = useState(false);
+  const [data, setData] = useState({ newPassword: '', code: '' });
 
   function handleChange(e) {
     const { name, value } = e.target;
     setData((data) => ({ ...data, [name]: value }));
     console.log(data);
   }
-
-  function handleClick() {
-    //временно
-    if (
-      data.password &&
-      data.password.length >= 6 &&
-      data.code &&
-      data.code.length >= 4
-    ) {
-      navigate('/');
-    } else {
-      setIsError(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (data.newPassword && data.code) {
+      try {
+        const res = await resetPassword({
+          password: data.newPassword,
+          token: data.code,
+        });
+        if (res.success) {
+          localStorage.removeItem('resetAllowed');
+          navigate('/login');
+          console.log(res);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
+  };
+
   return (
     <div className={styles.container}>
       <h2>Восстановление пароля</h2>
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <PasswordInput
+          name="newPassword"
+          value={data.newPassword}
+          type="password"
+          placeholder="Введите новый пароль"
+          onChange={handleChange}
+        />
+        <Input
+          name="code"
+          type="text"
+          value={data.code}
+          placeholder="Введите код из письма"
+          onChange={handleChange}
+        />
 
-      <PasswordInput
-        name="password"
-        value={data.password}
-        type="password"
-        placeholder="Введите новый пароль"
-        onChange={handleChange}
-      />
-      <Input
-        name="code"
-        type="text"
-        value={data.code}
-        placeholder="Введите код из письма"
-        onChange={handleChange}
-      />
-      {isError && 'Введите данные'}
-      <div className={styles.button}>
-        <Button
-          style={{ padding: '20px 40px', fontSize: '20px' }}
-          size="large"
-          type="primary"
-          onClick={handleClick}
-        >
-          Сохранить
-        </Button>
-      </div>
+        <div className={styles.button}>
+          <Button
+            style={{ padding: '20px 40px', fontSize: '20px' }}
+            size="large"
+            type="primary"
+          >
+            Сохранить
+          </Button>
+        </div>
+      </form>
       <section className={styles.login_header}>
         <span className={styles.page_header_text}>Вспомнили пароль?</span>
         <Link to="/login">

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: { email: '', name: '' },
+    user: null,
     isAuthChecked: false,
     userRequest: true,
     userFailed: false,
@@ -16,8 +16,11 @@ const userSlice = createSlice({
     setAuthChecked: (state) => {
       state.isAuthChecked = true;
     },
+    logoutUser: (state) => {
+      state.user = null;
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { setUser, setAuthChecked } = userSlice.actions;
+export const { setUser, setAuthChecked, logoutUser } = userSlice.actions;

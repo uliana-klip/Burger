@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-import ProtectedRoute from '../protected-route/protected-route';
+import ProtectedRoute from '../routes/protected-route';
 import { AppHeader } from '@components/app-header/app-header';
 
 import styles from './app.module.css';
@@ -22,24 +22,25 @@ export const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const background = location.state?.background;
+
   //const { user, isAuthChecked } = useSelector((state) => state.user);
+
+  const initUser = async () => {
+    const token = getCookie('token');
+    if (token) {
+      try {
+        const res = await userRequest();
+        dispatch(setUser(res.user));
+      } catch {
+        dispatch(setAuthChecked());
+      }
+    } else {
+      dispatch(setAuthChecked());
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchIngredients());
-
-    const initUser = async () => {
-      const token = getCookie('token');
-      if (token) {
-        try {
-          const res = await userRequest();
-          dispatch(setUser(res.user));
-        } catch {
-          dispatch(setAuthChecked());
-        }
-      } else {
-        dispatch(setAuthChecked());
-      }
-    };
     initUser();
   }, [dispatch]);
 
@@ -48,14 +49,14 @@ export const App = () => {
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-        <Route path="/register" element={<Register />} />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
       </Routes>
     </div>
   );

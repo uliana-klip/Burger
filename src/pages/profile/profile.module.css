@@ -6,12 +6,30 @@
   margin: 80px auto;
 }
 
-h2 {
-  padding: 24px 0;
+.profile p {
+  padding-top: 60px;
+  color: rgb(133 133 173);
+  line-height: 24px;
+  opacity: 0.4;
 }
 
-p {
-  margin-top: 60px;
+.profile_left_nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.navigation {
+  all: unset;
+  padding: 24px 0;
+  font-weight: 700;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.navigation:hover {
+  color: rgb(215 228 228);
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
 }
 
 .profile_right {
@@ -19,4 +37,13 @@ p {
   flex-direction: column;
   gap: 24px;
   margin-left: 60px;
+}
+
+.input_icon {
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
 }

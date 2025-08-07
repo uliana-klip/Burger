@@ -1,35 +1,37 @@
+import { setUser } from '@/services/redux/user/slice';
 import { loginRequest } from '@/utils/api';
-import { getCookie, setCookie } from '@/utils/cookie';
+import { setCookie } from '@/utils/cookie';
 import {
   PasswordInput,
   Button,
   EmailInput,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from '../pages.module.css';
 
-// import styles from './login.module.css';
-
 export const Login = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((data) => ({ ...data, [name]: value }));
-    console.log(data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await loginRequest(data);
+    const from = location.state?.from?.pathname;
     setCookie('token', res.accessToken.slice(7));
-    const token = getCookie('token');
-    navigate('/');
-
-    console.log(token);
+    setCookie('refreshToken', res.refreshToken);
+    dispatch(setUser(res.user));
+    navigate(from || '/');
+    console.log(res.user);
   };
   return (
     <div className={styles.container}>

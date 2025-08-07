@@ -17,11 +17,11 @@ export function registerRequest(form) {
   });
 }
 
-export function forgotPassword(form) {
+export function passwordForgotRequest(email) {
   return request('/password-reset', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(form),
+    body: JSON.stringify(email),
   });
 }
 
@@ -40,5 +40,24 @@ export function userRequest() {
       'Content-type': 'application/json',
       Authorization: `Bearer ${getCookie('token')}`,
     },
+  });
+}
+
+export function refreshTokenRequest(refreshToken) {
+  return request('/auth/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: refreshToken }),
+  });
+}
+
+export function updateUserRequest(form) {
+  return request('/auth/user', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getCookie('token')}`,
+    },
+    body: JSON.stringify(form),
   });
 }

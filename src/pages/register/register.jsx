@@ -6,7 +6,7 @@ import {
   Input,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '../pages.module.css';
 
@@ -14,8 +14,9 @@ import styles from '../pages.module.css';
 
 export const Register = () => {
   const [data, setData] = useState({ email: '', name: '', password: '' });
-
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((data) => ({ ...data, [name]: value }));
@@ -26,8 +27,8 @@ export const Register = () => {
     e.preventDefault();
     const res = await registerRequest(data);
     setCookie('token', res.accessToken.slice(7));
-    setUser(res.user.email);
-    //setData({ email: '', name: '', password: '' });
+    setUser(res.user);
+    navigate('/login');
     console.log(user);
   };
 
