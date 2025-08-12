@@ -1,5 +1,6 @@
 import { getCookie } from './cookie';
 import request from './request';
+import { requestWithRefresh } from './request-with-refresh';
 
 export function loginRequest(form) {
   return request('/auth/login', {
@@ -17,33 +18,33 @@ export function registerRequest(form) {
   });
 }
 
-export function passwordForgotRequest(email) {
+export function forgotPasswordRequest({ email }) {
   return request('/password-reset', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(email),
+    body: JSON.stringify({ email }),
   });
 }
 
-export function resetPassword(form) {
+export function resetPasswordRequest({ password, token }) {
   return request('/password-reset/reset', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(form),
+    body: JSON.stringify({ password, token }),
   });
 }
 
-export function userRequest() {
-  return request('/auth/user', {
+export function getUserRequest() {
+  const token = getCookie('accessToken');
+  return requestWithRefresh('/auth/user', {
     method: 'GET',
     headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${getCookie('token')}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 }
 
-export function refreshTokenRequest(refreshToken) {
+export function refreshTokenRequest({ refreshToken }) {
   return request('/auth/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -52,12 +53,21 @@ export function refreshTokenRequest(refreshToken) {
 }
 
 export function updateUserRequest(form) {
-  return request('/auth/user', {
+  const token = getCookie('accessToken');
+  return requestWithRefresh('/auth/user', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getCookie('token')}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(form),
+  });
+}
+
+export function logoutRequest({ refreshToken }) {
+  return request('/auth/logout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: refreshToken }),
   });
 }

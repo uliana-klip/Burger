@@ -15,6 +15,7 @@ import {
 import { useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -27,6 +28,11 @@ export const BurgerConstructor = () => {
   const bunBottom = 'https://code.s3.yandex.net/react/code/bun-02.png';
   const sauce = 'https://code.s3.yandex.net/react/code/sp_1.png';
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { user } = useSelector((state) => state.user);
+
   const modal = (
     <Modal
       onClose={() => {
@@ -37,6 +43,16 @@ export const BurgerConstructor = () => {
       <OrderDetails />
     </Modal>
   );
+
+  const handleClick = async () => {
+    if (!user) {
+      navigate('/login', { state: { from: location } });
+    } else {
+      dispatch(fetchOrder(ingredientsIds));
+    }
+    navigate('/');
+  };
+
   const [{ isOver }, dropRef] = useDrop({
     accept: ['bun', 'main', 'sauce'],
     drop: (item) => {
@@ -164,9 +180,7 @@ export const BurgerConstructor = () => {
         </article>
         <Button
           disabled={orderRequest || !selectedBun || selectedIngredients.length === 0}
-          onClick={() => {
-            dispatch(fetchOrder(ingredientsIds));
-          }}
+          onClick={handleClick}
           size="large"
           type="primary"
         >

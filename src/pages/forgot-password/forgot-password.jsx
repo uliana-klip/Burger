@@ -1,11 +1,9 @@
-import { passwordForgotRequest } from '@/utils/api';
+import { forgotPasswordRequest } from '@/utils/api';
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '../pages.module.css';
-
-// import styles from './NAMEPAGE.module.css';
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -20,7 +18,7 @@ export const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await passwordForgotRequest(data);
+      const res = await forgotPasswordRequest(data);
       if (res.success) {
         console.log(res);
         localStorage.setItem('resetAllowed', 'true');

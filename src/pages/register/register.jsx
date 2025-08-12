@@ -1,35 +1,38 @@
+import { setUser } from '@/services/redux/user/slice';
 import { registerRequest } from '@/utils/api';
-import { setCookie } from '@/utils/cookie';
+import { setAuthTokens } from '@/utils/auth-tokens';
 import {
   PasswordInput,
   Button,
   Input,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '../pages.module.css';
 
-// import styles from './NAMEPAGE.module.css';
-
 export const Register = () => {
   const [data, setData] = useState({ email: '', name: '', password: '' });
-  const [user, setUser] = useState({});
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((data) => ({ ...data, [name]: value }));
-    console.log(data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await registerRequest(data);
-    setCookie('token', res.accessToken.slice(7));
-    setUser(res.user);
-    navigate('/login');
-    console.log(user);
+    try {
+      const res = await registerRequest(data);
+      setAuthTokens({ accessToken: res.accessToken, refreshToken: res.refreshToken });
+      dispatch(setUser(res.user));
+      navigate('/', { replace: true });
+    } catch (error) {
+      alert(error.data?.message || error.message || 'ошибка при регистрации');
+    }
   };
 
   return (
@@ -37,13 +40,8 @@ export const Register = () => {
       <h2>Регистрация</h2>
       <form onSubmit={handleSubmit} style={{ margin: '0' }} className={styles.container}>
         <Input
-          ref={{
-            current: '[Circular]',
-          }}
-          errorText="Ошибка"
           name="name"
           onChange={handleChange}
-          // onIconClick={function fee() {}}
           placeholder="Имя"
           size="default"
           type="text"
@@ -52,7 +50,6 @@ export const Register = () => {
         <Input
           name="email"
           onChange={handleChange}
-          // onIconClick={function fee() {}}
           placeholder="E-mail"
           size="default"
           type="email"
@@ -63,7 +60,7 @@ export const Register = () => {
           <Button
             style={{ padding: '20px 40px', fontSize: '20px' }}
             size="large"
-            type="primary" /*onClick={function fee() {}}*/
+            type="primary"
             htmlType="submit"
           >
             Зарегистрироваться
@@ -76,7 +73,8 @@ export const Register = () => {
           <Button
             extraClass={styles.link_text}
             size="medium"
-            type="secondary" /*onClick={function fee() {}}*/
+            type="secondary"
+            htmlType="button"
           >
             Войти
           </Button>

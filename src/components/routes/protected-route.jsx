@@ -9,7 +9,7 @@ export default function ProtectedRoute() {
 
   const publicRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
 
-  const protectedRoutes = ['/profile', '/profile/orders'];
+  const isProtected = pathname.startsWith('/profile');
 
   if (!isAuthChecked) {
     return (
@@ -20,7 +20,6 @@ export default function ProtectedRoute() {
   }
 
   const isPublic = publicRoutes.includes(pathname);
-  const isProtected = protectedRoutes.some((route) => pathname.startsWith(route));
 
   if (user && isPublic) {
     return <Navigate to="/" replace />;

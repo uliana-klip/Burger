@@ -1,6 +1,6 @@
 import { setUser } from '@/services/redux/user/slice';
 import { loginRequest } from '@/utils/api';
-import { setCookie } from '@/utils/cookie';
+import { setAuthTokens } from '@/utils/auth-tokens';
 import {
   PasswordInput,
   Button,
@@ -25,18 +25,25 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await loginRequest(data);
-    const from = location.state?.from?.pathname;
-    setCookie('token', res.accessToken.slice(7));
-    setCookie('refreshToken', res.refreshToken);
-    dispatch(setUser(res.user));
-    navigate(from || '/');
-    console.log(res.user);
+    try {
+      const res = await loginRequest(data);
+      console.log('user:', res.user);
+      const from = location.state?.from?.pathname;
+      setAuthTokens({
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+      });
+      dispatch(setUser(res.user));
+      navigate(from || '/', { replace: true });
+    } catch (error) {
+      alert(error.data?.message || error.message || 'Ошибка при входе');
+      setData((data) => ({ ...data, password: '' }));
+    }
   };
   return (
     <div className={styles.container}>
       <form style={{ margin: '0' }} className={styles.container} onSubmit={handleSubmit}>
-        <h2 className={styles}>Вход</h2>
+        <h2>Вход</h2>
         <EmailInput
           name="email"
           onChange={handleChange}

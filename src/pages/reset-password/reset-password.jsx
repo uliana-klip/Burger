@@ -1,4 +1,4 @@
-import { resetPassword } from '@/utils/api';
+import { resetPasswordRequest } from '@/utils/api';
 import {
   Button,
   Input,
@@ -17,27 +17,25 @@ export const ResetPassword = () => {
     if (allowed !== 'true') {
       navigate('/forgot-password');
     }
-  }, []);
-  //временно
+  }, [navigate]);
+
   const [data, setData] = useState({ newPassword: '', code: '' });
 
   function handleChange(e) {
     const { name, value } = e.target;
     setData((data) => ({ ...data, [name]: value }));
-    console.log(data);
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (data.newPassword && data.code) {
       try {
-        const res = await resetPassword({
+        const res = await resetPasswordRequest({
           password: data.newPassword,
           token: data.code,
         });
         if (res.success) {
           localStorage.removeItem('resetAllowed');
           navigate('/login');
-          console.log(res);
         }
       } catch (error) {
         console.error(error);
