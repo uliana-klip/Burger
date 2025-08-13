@@ -36,7 +36,6 @@ export const BurgerIngredientCard = ({ item }) => {
         onClick={() => {
           dispatch(setIngredient(item));
           navigate(`/ingredients/${item._id}`, { state: { background: location } });
-          console.log('background location before modal:', location);
         }}
         className={styles.burger_ingredients_card}
         style={{ opacity: isDragging ? 0.5 : 1 }}

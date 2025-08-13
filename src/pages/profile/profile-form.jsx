@@ -38,7 +38,6 @@ export const ProfileForm = () => {
 
   const cancelEdit = () => {
     setDataForm({ name: user.name, email: user.email, password: '' });
-    console.log('all cancel');
   };
 
   const handleSubmit = async (e) => {

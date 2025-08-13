@@ -1,28 +1,36 @@
 import { forgotPasswordRequest } from '@/utils/api';
-import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { Button, EmailInput } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '../pages.module.css';
 
 export const ForgotPassword = () => {
+  useEffect(() => {
+    localStorage.removeItem('resetAllowed');
+  }, []);
+
   const navigate = useNavigate();
 
+  const emailRegex =
+    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
   const [data, setData] = useState({ email: '' });
+  const isValid = emailRegex.test(data.email);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData((data) => ({ ...data, [name]: value }));
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (!isValid || data.email === '') return;
       const res = await forgotPasswordRequest(data);
       if (res.success) {
-        console.log(res);
         localStorage.setItem('resetAllowed', 'true');
-        navigate('/reset-password');
+        navigate('/reset-password', { replace: true });
       }
     } catch (error) {
       console.error(error);
@@ -33,16 +41,19 @@ export const ForgotPassword = () => {
     <div className={styles.container}>
       <h2>Восстановление пароля</h2>
       <form onSubmit={handleSubmit} className={styles.container_form}>
-        <Input
+        <EmailInput
           name="email"
           type="email"
           value={data.email}
           placeholder="Укажите e-mail"
           onChange={handleChange}
+          checkValid={() => isValid}
+          errorText="неверный формат"
         />
 
         <div className={styles.button}>
           <Button
+            disabled={!isValid || data.email === ''}
             style={{ padding: '20px 40px', fontSize: '20px' }}
             size="large"
             type="primary"

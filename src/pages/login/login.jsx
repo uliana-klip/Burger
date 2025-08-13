@@ -27,7 +27,6 @@ export const Login = () => {
     e.preventDefault();
     try {
       const res = await loginRequest(data);
-      console.log('user:', res.user);
       const from = location.state?.from?.pathname;
       setAuthTokens({
         accessToken: res.accessToken,

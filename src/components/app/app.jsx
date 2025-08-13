@@ -7,6 +7,7 @@ import { Profile } from '@/pages/profile/profile';
 import { ProfileForm } from '@/pages/profile/profile-form';
 import { Register } from '@/pages/register/register';
 import { ResetPassword } from '@/pages/reset-password/reset-password';
+import { clearIngredient } from '@/services/redux/details/slice';
 import { fetchIngredients } from '@/services/redux/ingredients/slice';
 import { setAuthChecked, setUser } from '@/services/redux/user/slice';
 import { getUserRequest } from '@/utils/api';
@@ -17,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { OrdersHistory } from '../../pages/profile/orders-history';
+import Modal from '../modal/modal';
 import ProtectedRoute from '../routes/protected-route';
 import { AppHeader } from '@components/app-header/app-header';
 
@@ -26,6 +28,7 @@ export const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const background = location.state?.background;
+
   const { isAuthChecked } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -45,7 +48,6 @@ export const App = () => {
       dispatch(setAuthChecked());
     } else {
       fetchUser();
-      console.log(document.cookie);
     }
   }, [dispatch]);
 
@@ -64,15 +66,28 @@ export const App = () => {
           <Route path="/ingredients/:id" element={<IngredientPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/profile" element={<Profile />}>
               <Route index element={<ProfileForm />} />
               <Route path="orders-history" element={<OrdersHistory />} />
             </Route>
-            <Route path="/reset-password" element={<ResetPassword />} />
+
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Route>
           <Route path="/*" element={<Page404 />} />
+        </Routes>
+      )}
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal onClose={() => dispatch(clearIngredient())}>
+                <IngredientPage />
+              </Modal>
+            }
+          />
         </Routes>
       )}
     </div>

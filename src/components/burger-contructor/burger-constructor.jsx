@@ -49,8 +49,8 @@ export const BurgerConstructor = () => {
       navigate('/login', { state: { from: location } });
     } else {
       dispatch(fetchOrder(ingredientsIds));
+      navigate('/'); //TO DO (/profile/orders-history)
     }
-    navigate('/');
   };
 
   const [{ isOver }, dropRef] = useDrop({
