@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 480px;
+  margin: auto;
+  text-align: center;
+}
+
+form {
+  all: unset;
+}
+
+.styles.container_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  margin: 24px 0 56px;
+}
+
+.page_header {
+  text-align: center;
+}
+
+.page_header_text {
+  color: rgb(133 133 173);
+}
+
+.link_text {
+  padding: 0 10px;
+  font-size: 16px;
+}
+
+.loader {
+  margin: auto;
+}

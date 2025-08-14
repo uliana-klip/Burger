@@ -3,6 +3,7 @@ import { ingredientPropType } from '@/utils/prop-types';
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { setIngredient } from '../../../../services/redux/details/slice';
@@ -26,13 +27,15 @@ export const BurgerIngredientCard = ({ item }) => {
       isDragging: monitor.isDragging(),
     }),
   });
-
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <section>
       <article
         ref={dragRef}
         onClick={() => {
           dispatch(setIngredient(item));
+          navigate(`/ingredients/${item._id}`, { state: { background: location } });
         }}
         className={styles.burger_ingredients_card}
         style={{ opacity: isDragging ? 0.5 : 1 }}

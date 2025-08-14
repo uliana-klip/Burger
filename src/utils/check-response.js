@@ -1,6 +1,10 @@
-export default function checkResponse(res) {
+export const checkResponse = async (res) => {
+  const data = await res.json();
   if (res.ok) {
-    return res.json();
+    return data;
+  } else {
+    const message = data?.message || data?.error || 'Unknown error';
+    const error = new Error(message);
+    throw Object.assign(error, { status: res.status, data });
   }
-  return Promise.reject(`Ошибка ${res.status}`);
-}
+};

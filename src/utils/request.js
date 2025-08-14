@@ -1,6 +1,8 @@
-import checkResponse from './check-response';
+import { checkResponse } from './check-response';
+
 export const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-export default function request(endpoint, options) {
-  return fetch(`${BASE_URL}${endpoint}`, options).then(checkResponse);
+export default async function request(endpoint, options = {}) {
+  const res = await fetch(`${BASE_URL}${endpoint}`, options);
+  return await checkResponse(res);
 }
