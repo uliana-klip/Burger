@@ -16,9 +16,7 @@ const basketSlice = createSlice({
       reducer(state, action) {
         state.selectedIngredients.push(action.payload);
       },
-      //в следующем спринте сделать!
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      //@ts-expect-error - следующий спринт
       prepare: (ingredient) => {
         return {
           payload: { ...ingredient, uid: uuidv4() },
@@ -34,9 +32,7 @@ const basketSlice = createSlice({
       reducer(state, action) {
         state.selectedBun = action.payload;
       },
-      //в следующем спринте сделать!
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      //@ts-expect-error - следующий спринт
       prepare: (bun) => {
         return {
           payload: { ...bun, uid: uuidv4() },

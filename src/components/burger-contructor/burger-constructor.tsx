@@ -40,9 +40,7 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
     <Modal
       onClose={() => {
         dispatch(clearOrder());
-        //в следующем спринте сделать!
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
+
         dispatch(clearBasket());
       }}
     >

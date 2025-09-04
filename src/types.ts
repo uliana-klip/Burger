@@ -32,11 +32,10 @@ export type TDetailsState = {
 };
 
 export type TOrderState = {
-  order: Record<string, unknown>;
   orderNumber: number | null;
   orderRequest: boolean;
   orderSuccess: boolean;
-  orderError: boolean;
+  orderError: string | null;
 };
 
 export type TUserData = {

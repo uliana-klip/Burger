@@ -1,23 +1,25 @@
 import request from '@/utils/request';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const fetchOrder = createAsyncThunk(
+import type { TOrderState } from '@/types';
+
+type TOrderResponse = {
+  success: boolean;
+  name: string;
+  order: { number: number };
+  message?: string;
+};
+
+export const fetchOrder = createAsyncThunk<TOrderResponse, string[]>(
   'order/fetchOrder',
   async (ingredientsId: string[]) => {
-    return request('/orders', {
+    return request<TOrderResponse>('/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ingredients: ingredientsId }),
     });
   }
 );
-
-type TOrderState = {
-  orderNumber: number | null;
-  orderRequest: boolean;
-  orderSuccess: boolean;
-  orderError: string | null;
-};
 
 const initialState: TOrderState = {
   orderNumber: null,
@@ -44,28 +46,21 @@ const orderSlice = createSlice({
         state.orderError = null;
       })
       .addCase(fetchOrder.fulfilled, (state, action) => {
-        //в следующем спринте сделать!
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         if (action.payload.success) {
-          //в следующем спринте сделать!
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           state.orderNumber = action.payload.order.number;
           state.orderRequest = false;
           state.orderError = null;
+          state.orderSuccess = true;
         } else {
           state.orderRequest = false;
-          //в следующем спринте сделать!
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           state.orderError = action.payload.message || 'Неизвестная ошибка';
+          state.orderSuccess = false;
         }
       })
       .addCase(fetchOrder.rejected, (state, action) => {
         state.orderRequest = false;
-        const error = action.payload as { message?: string };
-        state.orderError = error?.message ?? 'Неизвестная ошибка';
+        state.orderError = action.error.message ?? 'Неизвестная ошибка';
+        state.orderSuccess = false;
       });
   },
 });
