@@ -1,18 +1,9 @@
+import { useAppSelector } from '@/services/redux/hooks';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import type { TUserData } from '@/types';
-
-type TState = {
-  user: {
-    user: TUserData | null;
-    isAuthChecked: boolean;
-  };
-};
-
 export default function ProtectedRoute(): React.JSX.Element | null {
-  const { user, isAuthChecked } = useSelector((state: TState) => state.user);
+  const { user, isAuthChecked } = useAppSelector((state) => state.user);
   const location = useLocation();
   const pathname = location.pathname;
 

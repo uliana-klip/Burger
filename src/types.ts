@@ -7,6 +7,16 @@ export type TItem = {
   uid?: string;
 };
 
+export type TIngredientModal = {
+  _id: string;
+  image: string;
+  name: string;
+  calories: number;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+};
+
 export type TRootState = {
   ingredients: TIngredientsState;
   basket: TBasketState;

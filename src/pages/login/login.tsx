@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@/services/redux/hooks';
 import { setUser } from '@/services/redux/user/slice';
 import { loginRequest } from '@/utils/api';
 import { setAuthTokens } from '@/utils/auth-tokens';
@@ -7,7 +8,6 @@ import {
   EmailInput,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import type { ChangeEvent, FormEvent } from 'react';
@@ -17,7 +17,7 @@ import styles from '../pages.module.css';
 export const Login = (): React.JSX.Element | null => {
   const [data, setData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {

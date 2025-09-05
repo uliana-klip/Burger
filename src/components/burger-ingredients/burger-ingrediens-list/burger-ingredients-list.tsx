@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '@/services/redux/hooks';
 
 import { BurgerIngredientCard } from './list-card/burger-ingredient-card';
 
-import type { TItem, TRootState } from '@/types';
+import type { TItem } from '@/types';
 
 import styles from './burger-ingredients-list.module.css';
 
@@ -15,7 +15,7 @@ export const BurgerIngredientsList = ({
   items,
   title,
 }: TProps): React.JSX.Element | null => {
-  const selectedIngredients = useSelector<TRootState, TItem[]>(
+  const selectedIngredients = useAppSelector(
     (state) => state.basket.selectedIngredients
   );
 

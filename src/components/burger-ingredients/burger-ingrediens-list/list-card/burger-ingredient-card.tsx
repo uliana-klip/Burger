@@ -1,15 +1,15 @@
 // import { addBun, addIngredients } from '@/services/redux/basket/slice';
 
+import { useAppSelector, useAppDispatch } from '@/services/redux/hooks';
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { useDrag } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { setIngredient } from '../../../../services/redux/details/slice';
 
-import type { TItem, TRootState } from '@/types';
+import type { TItem } from '@/types';
 
 import styles from '../burger-ingredients-list.module.css';
 
@@ -20,13 +20,11 @@ type TProps = {
 export const BurgerIngredientCard = ({
   ingredient,
 }: TProps): React.JSX.Element | null => {
-  const dispatch = useDispatch();
-  const selectedIngredients = useSelector<TRootState, TItem[] | null>(
+  const dispatch = useAppDispatch();
+  const selectedIngredients = useAppSelector(
     (state) => state.basket.selectedIngredients
   );
-  const selectedBun = useSelector<TRootState, TItem | null>(
-    (state) => state.basket.selectedBun
-  );
+  const selectedBun = useAppSelector((state) => state.basket.selectedBun);
 
   const counts: Record<string, number> = {};
 

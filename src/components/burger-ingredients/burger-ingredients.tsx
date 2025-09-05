@@ -1,17 +1,13 @@
+import { useAppSelector } from '@/services/redux/hooks';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { BurgerIngredientsList } from './burger-ingrediens-list/burger-ingredients-list';
-
-import type { TItem, TRootState } from '@/types';
 
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = (): React.JSX.Element | null => {
-  const ingredients = useSelector<TRootState, TItem[]>(
-    (state) => state.ingredients.ingredients
-  );
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
   const buns = ingredients.filter((ing) => ing.type === 'bun');
   const sauce = ingredients.filter((ing) => ing.type === 'sauce');
   const main = ingredients.filter((ing) => ing.type === 'main');

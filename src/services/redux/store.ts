@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import customMiddleware from './customMiddelware.js';
-import rootReducer from './index.js';
+import customMiddleware from './customMiddelware';
+import rootReducer from './index';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -9,5 +9,6 @@ export const store = configureStore({
   devTools: true,
 });
 
+export type TRootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;

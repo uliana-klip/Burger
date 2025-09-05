@@ -1,13 +1,13 @@
+import { useAppDispatch } from '@/services/redux/hooks';
 import { logoutUser, setAuthChecked } from '@/services/redux/user/slice';
 import { deleteCookie } from '@/utils/cookie';
-import { useDispatch } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 import styles from './profile.module.css';
 
 export const Profile = (): React.JSX.Element | null => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogout = (): void => {
     dispatch(logoutUser());

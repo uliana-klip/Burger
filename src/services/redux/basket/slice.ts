@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { TBasketState } from '@/types';
+import type { TBasketState, TItem } from '@/types';
 
 const initialState: TBasketState = {
   selectedIngredients: [],
@@ -13,26 +13,26 @@ const basketSlice = createSlice({
   initialState,
   reducers: {
     addIngredients: {
-      reducer(state, action) {
+      reducer(state, action: PayloadAction<TItem>) {
         state.selectedIngredients.push(action.payload);
       },
-      //@ts-expect-error - следующий спринт
+
       prepare: (ingredient) => {
         return {
           payload: { ...ingredient, uid: uuidv4() },
         };
       },
     },
-    removeIngredients: (state, action) => {
+    removeIngredients: (state, action: PayloadAction<string>) => {
       state.selectedIngredients = state.selectedIngredients.filter(
         (item) => item.uid !== action.payload
       );
     },
     addBun: {
-      reducer(state, action) {
+      reducer(state, action: PayloadAction<TItem>) {
         state.selectedBun = action.payload;
       },
-      //@ts-expect-error - следующий спринт
+
       prepare: (bun) => {
         return {
           payload: { ...bun, uid: uuidv4() },
@@ -43,7 +43,7 @@ const basketSlice = createSlice({
       state.selectedIngredients = [];
       state.selectedBun = null;
     },
-    setNewOrder: (state, action) => {
+    setNewOrder: (state, action: PayloadAction<TItem[]>) => {
       state.selectedIngredients = action.payload;
     },
   },

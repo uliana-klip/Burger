@@ -1,5 +1,5 @@
+import { useAppSelector } from '@/services/redux/hooks';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 
 import type { TItem, TRootState } from '@/types';
 import type { ComponentType } from 'react';
@@ -12,9 +12,9 @@ const withLoading = <P extends object>(
   >
 ): ComponentType<P> => {
   const ComponentWithLoading = (props: P): React.JSX.Element | null => {
-    const ingredients = useSelector(selectIngredients);
-    const isLoading: boolean = useSelector(
-      (state: TRootState) => state.ingredients.ingredientsFulfiled === false
+    const ingredients = useAppSelector(selectIngredients);
+    const isLoading: boolean = useAppSelector(
+      (state) => state.ingredients.ingredientsFulfiled === false
     );
 
     if (isLoading) {

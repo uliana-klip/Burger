@@ -1,6 +1,8 @@
+import { useAppSelector } from '@/services/redux/hooks';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
+import type { TIngredientModal } from '@/types';
 
 import styles from './ingredient-page.module.css';
 
@@ -8,31 +10,12 @@ type TParams = {
   id: string;
 };
 
-type TState = {
-  ingredients: {
-    ingredients: TIngredient[];
-    ingredientRequest: boolean;
-  };
-};
-
-type TIngredient = {
-  _id: string;
-  image: string;
-  name: string;
-  calories: number;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-};
-
 export const IngredientPage = (): React.JSX.Element | null => {
   const { id } = useParams<TParams>();
-  const isLoading = useSelector<TState, boolean>(
-    (state) => state.ingredients.ingredientRequest
-  );
-  const ingredient = useSelector<TState, TIngredient | undefined>((state) =>
+  const isLoading = useAppSelector((state) => state.ingredients.ingredientsRequest);
+  const ingredient = useAppSelector((state) =>
     state.ingredients.ingredients.find((ingredient) => ingredient._id === id)
-  );
+  ) as TIngredientModal | undefined;
 
   if (isLoading)
     return (
