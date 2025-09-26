@@ -42,9 +42,11 @@ export const AppHeader = (): React.JSX.Element | null => {
             )}
           </NavLink>
         </div>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
+        <NavLink to="/">
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+        </NavLink>
 
         <NavLink
           to="/profile"

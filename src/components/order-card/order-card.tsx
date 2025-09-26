@@ -47,7 +47,16 @@ export const OrderCard = ({
         </span>
       </section>
       <span className={styles.card_order_name}>{name}</span>
-      {showStatus && status ? <span>{cardStatus[status]}</span> : ''}
+
+      {showStatus && status ? (
+        <span
+          className={status === 'done' ? styles.card_status_done : styles.card_status}
+        >
+          {cardStatus[status]}
+        </span>
+      ) : (
+        ''
+      )}
 
       <div className={styles.card_order_footer}>
         <section className={styles.galery_order}>

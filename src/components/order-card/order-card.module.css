@@ -45,6 +45,14 @@
   font: 400 28px/24px var(--font-iceland);
 }
 
+.card_status {
+  color: rgb(242 242 243);
+}
+
+.card_status_done {
+  color: rgb(0 204 204);
+}
+
 .galery_order {
   display: flex;
   flex: 1 1 auto;

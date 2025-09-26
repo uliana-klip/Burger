@@ -40,7 +40,7 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
       onClose={(): void => {
         dispatch(clearOrder());
         dispatch(clearBasket());
-        navigate('/profile/orders');
+        navigate(-1);
       }}
     >
       <OrderDetails />

@@ -79,10 +79,11 @@ export const App = (): React.JSX.Element | null => {
           <Route element={<ProtectedRoute />}>
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/profile/orders/:number" element={<OrderDetailsCard />} />
             <Route path="/profile" element={<Profile />}>
               <Route index element={<ProfileForm />} />
               <Route path="orders" element={<Orders />} />
-              <Route path="orders/:number" element={<OrderDetailsCard />} />
+              {/* <Route path="orders/:number" element={<OrderDetailsCard />} /> */}
             </Route>
 
             <Route path="/register" element={<Register />} />

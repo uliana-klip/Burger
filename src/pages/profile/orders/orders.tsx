@@ -19,6 +19,7 @@ export const Orders = (): React.JSX.Element => {
   const isLoaded = useAppSelector((state) => state.profileOrders.isLoaded);
 
   const orders = useAppSelector((state) => state.profileOrders?.orders) ?? [];
+  const _orders = [...orders].reverse();
 
   useEffect(() => {
     const init = async (): Promise<void> => {
@@ -61,7 +62,7 @@ export const Orders = (): React.JSX.Element => {
   } else
     return (
       <div className={styles.orders_container}>
-        {orders.map((order) => (
+        {_orders.map((order) => (
           <Link
             to={`/profile/orders/${order.number}`}
             state={{ background: location }}
