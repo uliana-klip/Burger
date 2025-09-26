@@ -21,7 +21,7 @@ import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 import { BurgerConstructorItem } from './burger-constructor-item/burger-constructor-item';
 
-import type { TItem } from '@/types';
+import type { TIngredientMain } from '@/types';
 
 import styles from './burger-constructor.module.css';
 
@@ -40,6 +40,7 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
       onClose={(): void => {
         dispatch(clearOrder());
         dispatch(clearBasket());
+        navigate('/profile/orders');
       }}
     >
       <OrderDetails />
@@ -51,13 +52,12 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
       navigate('/login', { state: { from: location } });
     } else {
       dispatch(fetchOrder(ingredientsIds));
-      navigate('/'); //TO DO (/profile/orders-history)
     }
   };
 
   const [{ isOver }, dropRef] = useDrop({
     accept: ['bun', 'main', 'sauce'],
-    drop: (item: TItem) => {
+    drop: (item: TIngredientMain) => {
       if (item.type === 'bun') {
         dispatch(addBun(item));
       } else {
@@ -89,7 +89,9 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
     return selectedBun.price * 2 + ingredientsSum;
   }, [selectedBun, selectedIngredients]);
 
-  const ingredientsIds = selectedIngredients.map((ing) => ing._id);
+  const ingredientsIds = selectedBun
+    ? [selectedBun._id, ...selectedIngredients.map((ing) => ing._id), selectedBun._id]
+    : [];
 
   const moveIngredient = (fromIndex: number, toIndex: number): void => {
     const updated = [...selectedIngredients];

@@ -1,7 +1,6 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import ReactDom from 'react-dom';
-import { useNavigate } from 'react-router-dom';
 
 import { ModalOverlay } from './modal-overlay';
 
@@ -20,17 +19,14 @@ export default function Modal({
   onClose,
   title,
 }: TModalProps): React.ReactPortal {
-  const navigate = useNavigate();
-
   const handleClose = (): void => {
     onClose();
-    navigate(-1);
   };
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent): void => {
       if (e.key === 'Escape' || e.code === 'Escape') {
-        handleClose();
+        onClose();
       }
     };
     window.addEventListener('keydown', handleEsc);
@@ -45,11 +41,7 @@ export default function Modal({
           className={`${styles.modal_header} ${title ? styles.modal_header_c : styles.modal_header_r}`}
         >
           {title && <span className={styles.title}>{title}</span>}
-          <CloseIcon
-            type="secondary"
-            onClick={handleClose}
-            className={styles.close_icon}
-          />
+          <CloseIcon type="secondary" onClick={onClose} className={styles.close_icon} />
         </section>
         {children}
       </div>

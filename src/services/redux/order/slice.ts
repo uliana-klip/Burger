@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import { requestWithRefresh } from '@/utils/request-with-refresh';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import type { TOrderState } from '@/types';
@@ -13,9 +13,12 @@ type TOrderResponse = {
 export const fetchOrder = createAsyncThunk<TOrderResponse, string[]>(
   'order/fetchOrder',
   async (ingredientsId: string[]) => {
-    return request<TOrderResponse>('/orders', {
+    return requestWithRefresh<TOrderResponse>('/orders', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
       body: JSON.stringify({ ingredients: ingredientsId }),
     });
   }

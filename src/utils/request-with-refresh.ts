@@ -51,7 +51,10 @@ export const requestWithRefresh = async <T>(
       if (!options.headers) {
         options.headers = {};
       }
-      options.headers.Authorization = tokens.accessToken;
+      const refreshed = tokens.accessToken.startsWith('Bearer ')
+        ? tokens.accessToken.slice(7)
+        : tokens.accessToken;
+      options.headers.Authorization = `Bearer ${refreshed}`;
       options._retry = true;
       return await request<T>(endpoint, options);
     } catch (refreshError) {

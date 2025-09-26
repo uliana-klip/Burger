@@ -31,7 +31,7 @@ export const Profile = (): React.JSX.Element | null => {
             Профиль
           </NavLink>
           <NavLink
-            to="orders-history"
+            to="orders"
             className={({ isActive }) =>
               `${styles.link} ${isActive ? styles.link_active : ''}`
             }
