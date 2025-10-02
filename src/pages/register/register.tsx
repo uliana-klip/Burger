@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@/services/redux/hooks';
 import { setUser } from '@/services/redux/user/slice';
 import { registerRequest } from '@/utils/api';
 import { setAuthTokens } from '@/utils/auth-tokens';
@@ -7,7 +8,6 @@ import {
   Input,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import type { ChangeEvent, FormEvent } from 'react';
@@ -18,7 +18,7 @@ export const Register = (): React.JSX.Element | null => {
   const [data, setData] = useState({ email: '', name: '', password: '' });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;

@@ -1,3 +1,14 @@
+:root {
+  --color-bg-card: rgb(28 28 33);
+  --color-text-date: rgb(133 133 173);
+  --color-border-img: violet;
+  --color-shadow-img: rgb(201 196 201);
+  --font-iceland: 'Iceland', cursive;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-card: 40px;
+  --size-img: 56px;
+}
+
 * {
   margin: 0;
   padding: 0;

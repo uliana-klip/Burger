@@ -1,4 +1,5 @@
 import { InputName } from '@/components/input-name';
+import { useAppDispatch, useAppSelector } from '@/services/redux/hooks';
 import { setUser } from '@/services/redux/user/slice';
 import { updateUserRequest } from '@/utils/api';
 import {
@@ -8,24 +9,15 @@ import {
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
+import type { TUserData } from '@/types';
 import type { ChangeEvent, FormEvent } from 'react';
 
 import styles from './profile.module.css';
 
-type TUserInfo = {
-  name: string;
-  email: string;
-};
-
-type TState = {
-  user: { user: TUserInfo | null };
-};
-
 export const ProfileForm = (): React.JSX.Element | null => {
-  const user = useSelector((state: TState) => state.user.user);
-  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user.user) as TUserData | null;
+  const dispatch = useAppDispatch();
 
   const [dataForm, setDataForm] = useState({
     name: '',

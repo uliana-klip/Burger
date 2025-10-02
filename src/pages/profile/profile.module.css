@@ -6,7 +6,7 @@
   width: 100%;
   max-width: 1240px;
   margin-inline: auto;
-  margin: auto;
+  margin: 80px auto;
   padding-inline: 20px;
 }
 
@@ -55,7 +55,6 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-width: 0;
 }
 
 .profile_form {

@@ -1,0 +1,94 @@
+.card_order_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  width: 90%;
+  margin: auto;
+  padding: 24px;
+  background-color: var(--color-bg-card);
+  border-radius: 40px;
+}
+
+.card_order_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order_number {
+  font:
+    400 28px/24px 'Iceland',
+    cursive;
+}
+
+.order_date {
+  color: var(--color-text-date);
+  font: 400 16px/24px var(--font-mono);
+}
+
+.card_order_name {
+  font: 700 24px/30px var(--font-mono);
+}
+
+.card_order_footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.card_order_price {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font: 400 28px/24px var(--font-iceland);
+}
+
+.card_status {
+  color: rgb(242 242 243);
+}
+
+.card_status_done {
+  color: rgb(0 204 204);
+}
+
+.galery_order {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.galery_order img,
+.img_one,
+.with_counter {
+  width: var(--size-img);
+  height: var(--size-img);
+  margin-right: -20px;
+  background-color: black;
+  border: 2px solid var(--color-border-img);
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 4px var(--color-shadow-img);
+}
+
+.with_counter {
+  position: relative;
+}
+
+.with_counter img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}

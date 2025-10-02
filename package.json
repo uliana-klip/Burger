@@ -10,7 +10,7 @@
     "check": "stylelint && eslint src/",
     "cypress:open": "cypress open",
     "cypress": "cypress run",
-    "dev": "vite --port 3000",
+    "dev": "vite --port 3002",
     "deploy": "gh-pages -d dist",
     "eslint": "eslint src/ --fix",
     "lint": "npm run stylelint && npm run eslint && npm run prettier",

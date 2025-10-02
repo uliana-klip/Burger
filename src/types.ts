@@ -1,11 +1,23 @@
-export type TItem = {
-  name: string;
+export type TIngredientMain = {
   _id: string;
-  image: string;
+  name: string;
+  type: TIngredientType;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
   price: number;
-  type: string;
-  uid?: string;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  __v: number;
 };
+
+export type TConstructorItem = TIngredientMain & { uid?: string };
+
+export type TItem = TIngredientMain & { uid: string };
+
+export type TIngredientType = 'bun' | 'main' | 'sauce';
 
 export type TRootState = {
   ingredients: TIngredientsState;
@@ -16,7 +28,7 @@ export type TRootState = {
 };
 
 export type TIngredientsState = {
-  ingredients: TItem[];
+  ingredients: TIngredientMain[];
   ingredientsRequest: boolean;
   ingredientsFulfiled: boolean;
   ingredientsError: string | null;
@@ -28,7 +40,7 @@ export type TBasketState = {
 };
 
 export type TDetailsState = {
-  currentIngredient: TItem | null;
+  currentIngredient: TIngredientMain | null;
 };
 
 export type TOrderState = {
@@ -48,4 +60,34 @@ export type TUserState = {
   isAuthChecked: boolean;
   userRequest: boolean;
   userFailed: boolean;
+};
+
+export type TOrderStatus = 'created' | 'pending' | 'done';
+
+export type TOrder = {
+  _id: string;
+  number: number;
+  name?: string;
+  status?: TOrderStatus;
+  ingredients: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TGalleryItem = { image: string; name: string };
+
+export type TOrderCardProps = TOrder & {
+  showStatus?: boolean;
+};
+
+export type TOrderFeedResponse = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+};
+
+export type TOrderByNumberResponse = {
+  success: boolean;
+  orders: TOrder[];
 };

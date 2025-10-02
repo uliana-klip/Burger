@@ -1,14 +1,10 @@
+import { useAppSelector } from '@/services/redux/hooks';
 import { CheckMarkIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
-
-import type { TRootState } from '@/types';
 
 import styles from './order-details.module.css';
 
 export const OrderDetails = (): React.JSX.Element | null => {
-  const orderNumber = useSelector<TRootState, number | null>(
-    (state) => state.order.orderNumber
-  );
+  const orderNumber = useAppSelector((state) => state.order.orderNumber);
   return (
     <div>
       <section className={styles.modal}>

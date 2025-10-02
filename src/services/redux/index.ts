@@ -5,6 +5,8 @@ import detailsReducer from './details/slice';
 import ingredientsReduсer from './ingredients/slice';
 import orderReducer from './order/slice';
 import userReducer from './user/slice';
+import feedReducer from './web-socket/feed-slice';
+import profileOrderReducer from './web-socket/profile-slice';
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReduсer,
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
   details: detailsReducer,
   order: orderReducer,
   user: userReducer,
+  feed: feedReducer,
+  profileOrders: profileOrderReducer,
 });
 
 export default rootReducer;
