@@ -1,13 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import type { TUserState } from '../../../types';
+
+export const initialState: TUserState = {
+  user: null,
+  isAuthChecked: false,
+  userRequest: true,
+  userFailed: false,
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    user: null,
-    isAuthChecked: false,
-    userRequest: true,
-    userFailed: false,
-  },
+  initialState: initialState,
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
