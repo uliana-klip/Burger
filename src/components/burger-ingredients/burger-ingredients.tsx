@@ -58,7 +58,7 @@ export const BurgerIngredients = (): React.JSX.Element | null => {
   return (
     <section className={styles.burger_ingredients}>
       <nav>
-        <ul className={styles.menu}>
+        <ul className={styles.menu} data-testid="tabs">
           <Tab value="bun" active={isActive === 'bun'} onClick={selected}>
             Булки
           </Tab>
@@ -72,7 +72,11 @@ export const BurgerIngredients = (): React.JSX.Element | null => {
           </Tab>
         </ul>
       </nav>
-      <div className={styles.burger_ingredients_container} ref={containerRef}>
+      <div
+        data-testid="ingredients-list"
+        className={styles.burger_ingredients_container}
+        ref={containerRef}
+      >
         <div>
           <div ref={bunRef}>
             <BurgerIngredientsList items={buns} title="Булки" />

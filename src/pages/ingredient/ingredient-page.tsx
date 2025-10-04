@@ -2,7 +2,7 @@ import { useAppSelector } from '@/services/redux/hooks';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useParams } from 'react-router-dom';
 
-import type { TIngredientModal } from '@/types';
+import type { TIngredientMain } from '@/types';
 
 import styles from './ingredient-page.module.css';
 
@@ -15,7 +15,7 @@ export const IngredientPage = (): React.JSX.Element | null => {
   const isLoading = useAppSelector((state) => state.ingredients.ingredientsRequest);
   const ingredient = useAppSelector((state) =>
     state.ingredients.ingredients.find((ingredient) => ingredient._id === id)
-  ) as TIngredientModal | undefined;
+  ) as TIngredientMain | undefined;
 
   if (isLoading)
     return (
@@ -25,12 +25,14 @@ export const IngredientPage = (): React.JSX.Element | null => {
     );
   else if (ingredient)
     return (
-      <div className={styles.modal}>
+      <div data-testid="ingredient-details-modal" className={styles.modal}>
         <span className={styles.title}>Детали ингредиента</span>
         <img src={ingredient.image} alt={ingredient.name} className={styles.modal_img} />
         <section className={styles.modal_footer}>
-          <span className={styles.modal_name}>{ingredient.name}</span>
-          <section className={styles.modal_info}>
+          <span data-testid="ingredient-details-name" className={styles.modal_name}>
+            {ingredient.name}
+          </span>
+          <section data-testid="ingredient-details-info" className={styles.modal_info}>
             <span>
               Калории,ккал <br />
               {ingredient.calories}

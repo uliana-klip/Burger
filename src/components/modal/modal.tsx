@@ -36,12 +36,14 @@ export default function Modal({
   return ReactDom.createPortal(
     <>
       <ModalOverlay onClick={handleClose} />
-      <div className={styles.window}>
+      <div data-testid="ingredient-modal" className={styles.window}>
         <section
           className={`${styles.modal_header} ${title ? styles.modal_header_c : styles.modal_header_r}`}
         >
           {title && <span className={styles.title}>{title}</span>}
-          <CloseIcon type="secondary" onClick={onClose} className={styles.close_icon} />
+          <button type="button" data-testid="modal-close" onClick={onClose}>
+            <CloseIcon type="secondary" className={styles.close_icon} />
+          </button>
         </section>
         {children}
       </div>

@@ -2,12 +2,12 @@ import { useAppSelector } from '@/services/redux/hooks';
 
 import { BurgerIngredientCard } from './list-card/burger-ingredient-card';
 
-import type { TItem } from '@/types';
+import type { TIngredientMain, TItem } from '@/types';
 
 import styles from './burger-ingredients-list.module.css';
 
 type TProps = {
-  items: TItem[];
+  items: TIngredientMain[];
   title: string;
 };
 
