@@ -14,7 +14,7 @@
     "deploy": "gh-pages -d dist",
     "eslint": "eslint src/ --fix",
     "lint": "npm run stylelint && npm run eslint && npm run prettier",
-    "predeploy": "npm run build",
+    "predeploy": "vite build && cp dist/index.html dist/404.html",
     "prepare": "husky",
     "prettier": "prettier \"./src/**/*.{js,jsx,ts,tsx,json,html,css,md}\" --write",
     "preview": "vite preview",

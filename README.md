@@ -1,3 +1,16 @@
+## Stellar Burger
+
+Фронтенд проекта «Stellar Burger», реализованный на React + TypeScript.  
+Содержит функциональность конструктора бургера, аутентификации, личного кабинета и ленты заказов.  
+Тестирование покрывает Redux-редьюсеры и e2e-тесты с помощью Cypress.
+
+###  Деплой проекта
+Проект доступен по ссылке:  
+👉 [https://uliana-klip.github.io/Burger/#/](https://uliana-klip.github.io/Burger/#/)
+
+###  Тесты
+- Unit-тесты: Vitest  
+- E2E-тесты: Cypress  
 # Стартер на JavaScript для проекта Stellar Burger
 
 ## Процедура создания коммита с проверками
