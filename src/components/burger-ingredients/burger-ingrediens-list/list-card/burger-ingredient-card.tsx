@@ -79,7 +79,9 @@ export const BurgerIngredientCard = ({
           {ingredient.price}
           <CurrencyIcon type="primary" />
         </article>
-        <p className={styles.burger_ingredients_name}>{ingredient.name}</p>
+        <p data-testid="ingredient-name" className={styles.burger_ingredients_name}>
+          {ingredient.name}
+        </p>
       </article>
     </section>
   );

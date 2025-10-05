@@ -29,13 +29,19 @@ describe('конструктор бургера', () => {
 
   })
   it('проверка открытия и закрытия модалки', () => {
+    cy.get('[data-testid="ingredient-card"]').first().find('[data-testid="ingredient-name"]')
+      .invoke('text')
+      .as('ingredientName');
     cy.get('[data-testid="ingredient-card"]').first().click()
     cy.get('[data-testid="ingredient-modal"]').should('exist')
+    cy.get<string>('@ingredientName').then((name) => {
+      cy.get('[data-testid="ingredient-details-name"]').should('have.text', name.trim());
+    });
     cy.get('[data-testid="ingredient-details-info"]').should('exist')
     cy.get('[data-testid="ingredient-details-name"]').should('exist')
+
     cy.get('[data-testid="ingredient-modal"]').find('[data-testid="modal-close"]').should('exist').click()
     cy.get('[data-testid="ingredient-modal"]').should('not.exist')
   })
 
 })
-
