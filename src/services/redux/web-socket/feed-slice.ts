@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { TOrder } from '@/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { TOrder } from '../../../types';
 
 export type TFeedState = {
   connected: boolean;
   error: string | null;
   orders: TOrder[];
-  total: number | null;
-  totalToday: number | null;
+  total?: number | null;
+  totalToday?: number | null;
   isLoaded?: boolean;
 };
 

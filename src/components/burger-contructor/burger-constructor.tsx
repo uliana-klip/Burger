@@ -102,6 +102,7 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
 
   return (
     <div
+      data-testid="burger-constructor"
       ref={(node) => {
         dropRef(node);
       }}
@@ -187,6 +188,7 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
           </div>
         </article>
         <Button
+          data-testid="order-button"
           disabled={orderRequest || !selectedBun || selectedIngredients.length === 0}
           onClick={handleClick}
           size="large"

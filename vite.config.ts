@@ -18,7 +18,7 @@ export default defineConfig({
       esmExport: true,
     }),
   ],
-  base: '',
+  base: process.env.NODE_ENV === 'production' ? '/Burger/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

@@ -1,7 +1,8 @@
-import { requestWithRefresh } from '@/utils/request-with-refresh';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import type { TOrderState } from '@/types';
+import { requestWithRefresh } from '../../../utils/request-with-refresh';
+
+import type { TOrderState } from '../../../types';
 
 type TOrderResponse = {
   success: boolean;
@@ -24,7 +25,7 @@ export const fetchOrder = createAsyncThunk<TOrderResponse, string[]>(
   }
 );
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   orderNumber: null,
   orderRequest: false,
   orderSuccess: false,

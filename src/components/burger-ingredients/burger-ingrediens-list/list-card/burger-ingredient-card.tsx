@@ -1,6 +1,5 @@
 // import { addBun, addIngredients } from '@/services/redux/basket/slice';
 
-import { useAppSelector, useAppDispatch } from '@/services/redux/hooks';
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { useDrag } from 'react-dnd';
@@ -8,13 +7,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { setIngredient } from '../../../../services/redux/details/slice';
+import { useAppSelector, useAppDispatch } from '../../../../services/redux/hooks';
 
-import type { TItem } from '@/types';
+import type { TIngredientMain, TItem } from '../../../../types';
 
 import styles from '../burger-ingredients-list.module.css';
 
 type TProps = {
-  ingredient: TItem;
+  ingredient: TIngredientMain;
 };
 
 export const BurgerIngredientCard = ({
@@ -49,6 +49,7 @@ export const BurgerIngredientCard = ({
   return (
     <section>
       <article
+        data-testid="ingredient-card"
         ref={cardRef}
         onClick={() => {
           dispatch(setIngredient(ingredient));
@@ -78,7 +79,9 @@ export const BurgerIngredientCard = ({
           {ingredient.price}
           <CurrencyIcon type="primary" />
         </article>
-        <p className={styles.burger_ingredients_name}>{ingredient.name}</p>
+        <p data-testid="ingredient-name" className={styles.burger_ingredients_name}>
+          {ingredient.name}
+        </p>
       </article>
     </section>
   );

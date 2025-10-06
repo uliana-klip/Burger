@@ -4,14 +4,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { TFeedMessage, TFeedState } from './feed-slice';
 
-type TProfileState = TFeedState;
+type TProfileState = Omit<TFeedState, 'total' | 'totalToday'>;
 
 const initialState: TProfileState = {
   connected: false,
   error: null,
   orders: [],
-  total: null,
-  totalToday: null,
   isLoaded: false,
 };
 type TProfileMessage = TFeedMessage;

@@ -1,7 +1,8 @@
-import request from '@/utils/request';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import type { TIngredientsState, TIngredientMain } from '@/types';
+import request from '../../../utils/request';
+
+import type { TIngredientsState, TIngredientMain } from '../../../types';
 
 type TIngredientsResponse = {
   success: boolean;
@@ -14,7 +15,7 @@ export const fetchIngredients = createAsyncThunk<TIngredientsResponse>(
     return request<TIngredientsResponse>('/ingredients');
   }
 );
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFulfiled: false,
